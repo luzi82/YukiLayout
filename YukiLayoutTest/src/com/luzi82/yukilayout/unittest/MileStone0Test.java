@@ -32,7 +32,7 @@ public class MileStone0Test {
 		record = recordAry[i++];
 		Assert.assertTrue(record instanceof YkGraphicsRecorder.Clear);
 		clear = (YkGraphicsRecorder.Clear) record;
-		Assert.assertEquals(0xff7f7f7f, clear.color);
+		Assert.assertEquals(0xff7f7f7f, clear.color.argb);
 
 		Assert.assertEquals(i, recordAry.length);
 	}
@@ -74,7 +74,7 @@ public class MileStone0Test {
 		record = recordAry[i++];
 		Assert.assertTrue(record instanceof YkGraphicsRecorder.Clear);
 		clear = (YkGraphicsRecorder.Clear) record;
-		Assert.assertEquals(0xff7f7f7f, clear.color);
+		Assert.assertEquals(0xff7f7f7f, clear.color.argb);
 
 		record = recordAry[i++];
 		Assert.assertTrue(record instanceof YkGraphicsRecorder.ClipStart);

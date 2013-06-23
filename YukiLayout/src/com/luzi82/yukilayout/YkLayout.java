@@ -2,7 +2,7 @@ package com.luzi82.yukilayout;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.ParseException;
+import java.io.InputStream;
 import java.util.LinkedList;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -23,6 +23,12 @@ public class YkLayout {
 			SAXException, IOException {
 		SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
 		parser.parse(file, new DH());
+	}
+
+	public YkLayout(InputStream inputStream)
+			throws ParserConfigurationException, SAXException, IOException {
+		SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
+		parser.parse(inputStream, new DH());
 	}
 
 	public void setRootSize(int width, int height) {
@@ -84,7 +90,7 @@ public class YkLayout {
 		@Override
 		public void paint(YkGraphics graphics) {
 			if (backgroundColor.valid()) {
-				graphics.clear(backgroundColor.getInt());
+				graphics.clear(backgroundColor.color());
 			}
 		}
 	}
@@ -111,19 +117,29 @@ public class YkLayout {
 	}
 
 	public class Dynamic {
+		int valueVer;
 		String value;
+
+		int colorVer;
+		YkColor color;
 
 		public Dynamic(String value) {
 			this.value = value;
+			this.valueVer = 1;
 		}
 
 		public boolean valid() {
-			return value != null;
+			return this.value != null;
 		}
 
-		public int getInt() {
-			return (int) (Long.decode(value) & 0xffffffff);
+		public YkColor color() {
+			if (colorVer != valueVer) {
+				color = new YkColor(value);
+				colorVer = valueVer;
+			}
+			return color;
 		}
+
 	}
 
 }
