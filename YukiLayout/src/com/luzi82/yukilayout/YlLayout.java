@@ -13,19 +13,19 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-public class YkLayout {
+public class YlLayout {
 
 	Ele root;
 	int rootWidth;
 	int rootHeight;
 
-	public YkLayout(File file) throws ParserConfigurationException,
+	public YlLayout(File file) throws ParserConfigurationException,
 			SAXException, IOException {
 		SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
 		parser.parse(file, new DH());
 	}
 
-	public YkLayout(InputStream inputStream)
+	public YlLayout(InputStream inputStream)
 			throws ParserConfigurationException, SAXException, IOException {
 		SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
 		parser.parse(inputStream, new DH());
@@ -36,13 +36,13 @@ public class YkLayout {
 		this.rootHeight = height;
 	}
 
-	public void paint(YkGraphics graphics) {
+	public void paint(YlGraphics graphics) {
 		root.paint(graphics);
 	}
 
 	public class DH extends DefaultHandler {
 
-		LinkedList<Ele> stack = new LinkedList<YkLayout.Ele>();
+		LinkedList<Ele> stack = new LinkedList<YlLayout.Ele>();
 
 		@Override
 		public void startElement(String uri, String localName, String qName,
@@ -75,7 +75,7 @@ public class YkLayout {
 	}
 
 	public abstract class Ele {
-		LinkedList<Ele> child = new LinkedList<YkLayout.Ele>();
+		LinkedList<Ele> child = new LinkedList<YlLayout.Ele>();
 		Dynamic backgroundColor;
 
 		public void processAttributes(Attributes attributes) {
@@ -83,12 +83,12 @@ public class YkLayout {
 					attributes.getValue("background-color"));
 		}
 
-		public abstract void paint(YkGraphics graphics);
+		public abstract void paint(YlGraphics graphics);
 	}
 
 	public class Screen extends Ele {
 		@Override
-		public void paint(YkGraphics graphics) {
+		public void paint(YlGraphics graphics) {
 			if (backgroundColor.valid()) {
 				graphics.clear(backgroundColor.color());
 			}
@@ -97,21 +97,21 @@ public class YkLayout {
 
 	public class Box extends Ele {
 		@Override
-		public void paint(YkGraphics graphics) {
+		public void paint(YlGraphics graphics) {
 
 		}
 	}
 
 	public class Repeat extends Ele {
 		@Override
-		public void paint(YkGraphics graphics) {
+		public void paint(YlGraphics graphics) {
 
 		}
 	}
 
 	public class Text extends Ele {
 		@Override
-		public void paint(YkGraphics graphics) {
+		public void paint(YlGraphics graphics) {
 
 		}
 	}
@@ -121,7 +121,7 @@ public class YkLayout {
 		String value;
 
 		int colorVer;
-		YkColor color;
+		YlColor color;
 
 		public Dynamic(String value) {
 			this.value = value;
@@ -132,9 +132,9 @@ public class YkLayout {
 			return this.value != null;
 		}
 
-		public YkColor color() {
+		public YlColor color() {
 			if (colorVer != valueVer) {
-				color = new YkColor(value);
+				color = new YlColor(value);
 				colorVer = valueVer;
 			}
 			return color;

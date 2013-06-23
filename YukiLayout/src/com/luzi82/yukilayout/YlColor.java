@@ -1,6 +1,6 @@
 package com.luzi82.yukilayout;
 
-public class YkColor {
+public class YlColor {
 
 	public int argb;
 
@@ -14,7 +14,7 @@ public class YkColor {
 	public float greenF;
 	public float blueF;
 
-	public YkColor(String value) {
+	public YlColor(String value) {
 		argb = (int) (Long.decode(value) & 0xffffffff);
 
 		alphaI = (argb >> 24) & 0xff;

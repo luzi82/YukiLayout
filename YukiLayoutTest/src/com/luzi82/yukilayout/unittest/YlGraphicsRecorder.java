@@ -2,15 +2,15 @@ package com.luzi82.yukilayout.unittest;
 
 import java.util.LinkedList;
 
-import com.luzi82.yukilayout.YkColor;
-import com.luzi82.yukilayout.YkGraphics;
+import com.luzi82.yukilayout.YlColor;
+import com.luzi82.yukilayout.YlGraphics;
 
-public class YkGraphicsRecorder implements YkGraphics {
+public class YlGraphicsRecorder implements YlGraphics {
 
-	LinkedList<YkGraphicsRecorder.Record> recordList = new LinkedList<YkGraphicsRecorder.Record>();
+	LinkedList<YlGraphicsRecorder.Record> recordList = new LinkedList<YlGraphicsRecorder.Record>();
 
-	public YkGraphicsRecorder.Record[] getRecordAry() {
-		return recordList.toArray(new YkGraphicsRecorder.Record[0]);
+	public YlGraphicsRecorder.Record[] getRecordAry() {
+		return recordList.toArray(new YlGraphicsRecorder.Record[0]);
 	}
 
 	public class Record {
@@ -19,7 +19,7 @@ public class YkGraphicsRecorder implements YkGraphics {
 
 	public class Text extends Record {
 
-		public YkColor color;
+		public YlColor color;
 
 	}
 
@@ -38,7 +38,7 @@ public class YkGraphicsRecorder implements YkGraphics {
 	}
 
 	@Override
-	public void clear(YkColor color) {
+	public void clear(YlColor color) {
 		Clear c = new Clear();
 		c.color = color;
 		recordList.push(c);
@@ -46,7 +46,7 @@ public class YkGraphicsRecorder implements YkGraphics {
 
 	public class Clear extends Record {
 
-		public YkColor color;
+		public YlColor color;
 
 	}
 

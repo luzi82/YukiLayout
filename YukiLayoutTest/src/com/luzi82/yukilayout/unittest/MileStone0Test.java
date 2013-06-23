@@ -10,28 +10,28 @@ import junit.framework.Assert;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
-import com.luzi82.yukilayout.YkLayout;
+import com.luzi82.yukilayout.YlLayout;
 
 public class MileStone0Test {
 
 	@Test
 	public void clear() throws ParserConfigurationException, SAXException,
 			IOException {
-		YkLayout layout = new YkLayout(new File("res/clear.xml"));
+		YlLayout layout = new YlLayout(new File("res/clear.xml"));
 		layout.setRootSize(800, 600);
 
-		YkGraphicsRecorder graphicsRecorder = new YkGraphicsRecorder();
+		YlGraphicsRecorder graphicsRecorder = new YlGraphicsRecorder();
 		layout.paint(graphicsRecorder);
 
-		YkGraphicsRecorder.Record[] recordAry = graphicsRecorder.getRecordAry();
-		YkGraphicsRecorder.Record record;
+		YlGraphicsRecorder.Record[] recordAry = graphicsRecorder.getRecordAry();
+		YlGraphicsRecorder.Record record;
 
 		int i = 0;
-		YkGraphicsRecorder.Clear clear;
+		YlGraphicsRecorder.Clear clear;
 
 		record = recordAry[i++];
-		Assert.assertTrue(record instanceof YkGraphicsRecorder.Clear);
-		clear = (YkGraphicsRecorder.Clear) record;
+		Assert.assertTrue(record instanceof YlGraphicsRecorder.Clear);
+		clear = (YlGraphicsRecorder.Clear) record;
 		Assert.assertEquals(0xff7f7f7f, clear.color.argb);
 
 		Assert.assertEquals(i, recordAry.length);
@@ -40,13 +40,13 @@ public class MileStone0Test {
 	@Test
 	public void emptyscreen() throws ParserConfigurationException,
 			SAXException, IOException {
-		YkLayout layout = new YkLayout(new File("res/emptyscreen.xml"));
+		YlLayout layout = new YlLayout(new File("res/emptyscreen.xml"));
 		layout.setRootSize(800, 600);
 
-		YkGraphicsRecorder graphicsRecorder = new YkGraphicsRecorder();
+		YlGraphicsRecorder graphicsRecorder = new YlGraphicsRecorder();
 		layout.paint(graphicsRecorder);
 
-		YkGraphicsRecorder.Record[] recordAry = graphicsRecorder.getRecordAry();
+		YlGraphicsRecorder.Record[] recordAry = graphicsRecorder.getRecordAry();
 
 		int i = 0;
 
@@ -56,29 +56,29 @@ public class MileStone0Test {
 	@Test
 	public void milestone0() throws ParserConfigurationException, SAXException,
 			IOException {
-		YkLayout layout = new YkLayout(new File("res/milestone0.xml"));
+		YlLayout layout = new YlLayout(new File("res/milestone0.xml"));
 		layout.setRootSize(800, 600);
 
-		YkGraphicsRecorder graphicsRecorder = new YkGraphicsRecorder();
+		YlGraphicsRecorder graphicsRecorder = new YlGraphicsRecorder();
 		layout.paint(graphicsRecorder);
 
-		YkGraphicsRecorder.Record[] recordAry = graphicsRecorder.getRecordAry();
-		YkGraphicsRecorder.Record record;
+		YlGraphicsRecorder.Record[] recordAry = graphicsRecorder.getRecordAry();
+		YlGraphicsRecorder.Record record;
 
 		int i = 0;
-		YkGraphicsRecorder.Clear clear;
-		YkGraphicsRecorder.ClipStart clipStart;
-		YkGraphicsRecorder.ClipEnd clipEnd;
-		YkGraphicsRecorder.Text text;
+		YlGraphicsRecorder.Clear clear;
+		YlGraphicsRecorder.ClipStart clipStart;
+		YlGraphicsRecorder.ClipEnd clipEnd;
+		YlGraphicsRecorder.Text text;
 
 		record = recordAry[i++];
-		Assert.assertTrue(record instanceof YkGraphicsRecorder.Clear);
-		clear = (YkGraphicsRecorder.Clear) record;
+		Assert.assertTrue(record instanceof YlGraphicsRecorder.Clear);
+		clear = (YlGraphicsRecorder.Clear) record;
 		Assert.assertEquals(0xff7f7f7f, clear.color.argb);
 
 		record = recordAry[i++];
-		Assert.assertTrue(record instanceof YkGraphicsRecorder.ClipStart);
-		clipStart = (YkGraphicsRecorder.ClipStart) record;
+		Assert.assertTrue(record instanceof YlGraphicsRecorder.ClipStart);
+		clipStart = (YlGraphicsRecorder.ClipStart) record;
 		Assert.assertEquals(0, clipStart.x);
 		Assert.assertEquals(0, clipStart.y);
 		Assert.assertEquals(800, clipStart.w);
@@ -86,14 +86,14 @@ public class MileStone0Test {
 
 		for (int j = 0; j < 5; ++j) {
 			record = recordAry[i++];
-			Assert.assertTrue(record instanceof YkGraphicsRecorder.Text);
-			text = (YkGraphicsRecorder.Text) record;
+			Assert.assertTrue(record instanceof YlGraphicsRecorder.Text);
+			text = (YlGraphicsRecorder.Text) record;
 			Assert.assertEquals(0xffffffff, text.color);
 		}
 
 		record = recordAry[i++];
-		Assert.assertTrue(record instanceof YkGraphicsRecorder.ClipEnd);
-		clipEnd = (YkGraphicsRecorder.ClipEnd) record;
+		Assert.assertTrue(record instanceof YlGraphicsRecorder.ClipEnd);
+		clipEnd = (YlGraphicsRecorder.ClipEnd) record;
 		Assert.assertEquals(0, clipEnd.x);
 		Assert.assertEquals(0, clipEnd.y);
 		Assert.assertEquals(800, clipEnd.w);
