@@ -1,0 +1,11 @@
+<screen var.gap="floor(min(this.width,this.height)/20)" background-color="#ff7f7f7f">
+    <box size="parent.size" vol="parent.width,content.height" glue="clip,scroll">
+        <box padding="var.gap">
+            <repeat offset="0,last.height+var.gap" for="itemlist,item">
+                <box size="parent.width,floor(this.width/8)">
+                    <text font-texture-size="32" align="4" text="item.name" color="#ffffffff"/>
+                </box>
+            </repeat>
+        </box>
+    </box>
+</screen>
