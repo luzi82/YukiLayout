@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
+import java.text.ParseException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.TreeMap;
@@ -76,8 +77,11 @@ public class YlLayout {
 				throw new SAXException("unknown element: " + qName);
 			}
 			ele.processAttributes(attributes);
-			if (stack.size() > 0)
-				stack.getFirst().child.addFirst(ele);
+			if (stack.size() > 0) {
+				Ele p = stack.getFirst();
+				p.child.addFirst(ele);
+				ele.parent = p;
+			}
 			stack.push(ele);
 		}
 
@@ -93,9 +97,11 @@ public class YlLayout {
 	}
 
 	public abstract class Ele {
+		public Ele parent;
+
 		public LinkedList<Ele> child = new LinkedList<YlLayout.Ele>();
 
-		public StoreRule id = new StoreRule();
+		// public StoreRule id = new StoreRule(this);
 
 		public TreeMap<String, StoreRule> var = new TreeMap<String, YlLayout.StoreRule>();
 
@@ -123,11 +129,11 @@ public class YlLayout {
 			if (key.startsWith(VAR_PREFIX)
 					&& key.length() > VAR_PREFIX.length()) {
 				String varKey = key.substring(VAR_PREFIX.length());
-				var.put(varKey, new StoreRule(value));
+				var.put(varKey, new StoreRule(this, value));
 			}
 		}
 
-		public Object cal(String key) {
+		public Object cal(String key) throws ParseException {
 			try {
 				Field f = getClass().getField(key);
 				if ((f != null) && (f.getType() == StoreRule.class)) {
@@ -152,28 +158,36 @@ public class YlLayout {
 
 	public class Screen extends Ele {
 
-		public StoreRule backgroundColor = new StoreRule();
+		public StoreRule backgroundColor = new StoreRule(this);
 
 		@Override
 		public void paintStart(YlGraphics graphics) {
-			YlColor backgroundColor = this.backgroundColor.color();
-			if (backgroundColor != null) {
-				graphics.clear(backgroundColor);
+			try {
+				YlColor backgroundColor = this.backgroundColor.color();
+				if (backgroundColor != null) {
+					graphics.clear(backgroundColor);
+				}
+			} catch (ParseException e) {
+				throw new Error(e);
 			}
 		}
 	}
 
 	public class Drag extends Ele {
 
-		public StoreRule x = new StoreRule("0");
-		public StoreRule y = new StoreRule("0");
+		public StoreRule x = new StoreRule(this, "0");
+		public StoreRule y = new StoreRule(this, "0");
 
 		@Override
 		public void paintStart(YlGraphics graphics) {
-			Float xf = x.floatt();
-			Float yf = y.floatt();
-			graphics.push();
-			graphics.translate(xf, yf);
+			try {
+				Float xf = x.floatt();
+				Float yf = y.floatt();
+				graphics.push();
+				graphics.translate(xf, yf);
+			} catch (ParseException e) {
+				throw new Error(e);
+			}
 		}
 
 		@Override
@@ -184,10 +198,6 @@ public class YlLayout {
 	}
 
 	public class Repeat extends Ele {
-		@Override
-		public void paintStart(YlGraphics graphics) {
-
-		}
 	}
 
 	public class Text extends Ele {
@@ -198,36 +208,47 @@ public class YlLayout {
 	}
 
 	public class Trans extends Ele {
-		public StoreRule x = new StoreRule("0");
-		public StoreRule y = new StoreRule("0");
+		public StoreRule x = new StoreRule(this, "0");
+		public StoreRule y = new StoreRule(this, "0");
 
 		@Override
 		public void paintStart(YlGraphics graphics) {
-			Float xf = x.floatt();
-			Float yf = y.floatt();
-			graphics.push();
-			graphics.translate(xf, yf);
+			try {
+				Float xf = x.floatt();
+				Float yf = y.floatt();
+				graphics.push();
+				graphics.translate(xf, yf);
+			} catch (ParseException e) {
+				throw new Error(e);
+			}
+		}
+
+		@Override
+		public void paintEnd(YlGraphics graphics) {
+			graphics.pop();
 		}
 	}
 
 	public class Void extends Ele {
-		@Override
-		public void paintStart(YlGraphics graphics) {
-
-		}
 	}
 
 	public int valueVer = 0;
 
 	public abstract class Rule {
 
+		Ele ele;
+
 		int valBufferVer = -1;
 		Object valBuffer;
 
-		public Object val() {
+		public Rule(Ele ele) {
+			this.ele = ele;
+		}
+
+		public Object val() throws ParseException {
 			if (valBufferVer != valueVer) {
 				String rule = rule();
-				valBuffer = ruleToVal(rule);
+				valBuffer = ruleToVal(ele, rule);
 				valBufferVer = valueVer;
 			}
 			return valBuffer;
@@ -240,7 +261,7 @@ public class YlLayout {
 		int colorVer = -1;
 		YlColor color;
 
-		public YlColor color() {
+		public YlColor color() throws ParseException {
 			if (colorVer != valueVer) {
 				Object v = val();
 				if (v == null) {
@@ -256,7 +277,7 @@ public class YlLayout {
 		int floatVer = -1;
 		Float floatt;
 
-		public Float floatt() {
+		public Float floatt() throws ParseException {
 			if (floatVer != valueVer) {
 				Object v = val();
 				if (v == null) {
@@ -276,11 +297,13 @@ public class YlLayout {
 
 		String input;
 
-		public StoreRule() {
+		public StoreRule(Ele ele) {
+			super(ele);
 			++valueVer;
 		}
 
-		public StoreRule(String input) {
+		public StoreRule(Ele ele, String input) {
+			super(ele);
 			this.input = input;
 			++valueVer;
 		}
@@ -300,8 +323,49 @@ public class YlLayout {
 
 	public static final String VAR_PREFIX = "var.";
 
-	public Object ruleToVal(String rule) {
-		return rule;
+	public Object ruleToVal(Ele ele, String rule) throws ParseException {
+		if (rule == null)
+			return null;
+
+		String[] exp = YlExp.parse(rule);
+		int offset = 0;
+
+		LinkedList<Object> calStack = new LinkedList<Object>();
+
+		while (offset < exp.length) {
+			String v = exp[offset++];
+			calStack.push(v);
+		}
+
+		if (calStack.size() != 1) {
+			throw new ParseException(rule, rule.length());
+		}
+
+		Object ret = calStack.getFirst();
+		ret = var(ele, ret);
+
+		return ret;
+	}
+
+	public Object var(Ele ele, Object in) throws ParseException {
+		if (in instanceof String) {
+			String s = (String) in;
+			try {
+				float f = Float.parseFloat(s);
+				return f;
+			} catch (NumberFormatException e) {
+			}
+			while (ele != null) {
+				Rule r = ele.var.get(s);
+				if (r != null) {
+					return r.val();
+				}
+				ele = ele.parent;
+			}
+			return s;
+		} else {
+			return in;
+		}
 	}
 
 }

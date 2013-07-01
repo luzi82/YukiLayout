@@ -6,7 +6,7 @@ import java.util.LinkedList;
 public class YlExp {
 
 	enum Token {
-		NUMBER, OPERATOR, CHAR, NULL, DOT
+		NUMBER, OPERATOR, CHAR, NULL, DOT, HEX
 	}
 
 	public static String[] parse(String string) throws ParseException {
@@ -33,13 +33,24 @@ public class YlExp {
 					token = t;
 					++off;
 				} else if (token == Token.NUMBER) {
-					if ((t != Token.NUMBER) && (t != Token.DOT))
+					if (sb.toString().equals("0") && c == 'x') {
+						token = Token.HEX;
+						sb.append(c);
+						++off;
+					} else if ((t != Token.NUMBER) && (t != Token.DOT)) {
 						break;
-					sb.append(c);
-					++off;
+					} else {
+						sb.append(c);
+						++off;
+					}
 				} else if (token == Token.OPERATOR) {
 					break;
 				} else if (token == Token.CHAR) {
+					if ((t != Token.CHAR) && (t != Token.NUMBER))
+						break;
+					sb.append(c);
+					++off;
+				} else if (token == Token.HEX) {
 					if ((t != Token.CHAR) && (t != Token.NUMBER))
 						break;
 					sb.append(c);
@@ -51,7 +62,8 @@ public class YlExp {
 			String s = sb.toString();
 			if (token == Token.NULL) {
 				// do nothing
-			} else if ((token == Token.CHAR) || (token == Token.NUMBER)) {
+			} else if ((token == Token.CHAR) || (token == Token.NUMBER)
+					|| (token == Token.HEX)) {
 				out.addLast(s);
 			} else if ((token == Token.DOT) || (token == Token.OPERATOR)) {
 				if (s.equals("-") && (lastToken != Token.CHAR)
