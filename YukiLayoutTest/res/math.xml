@@ -1,0 +1,55 @@
+<screen>
+
+    <trans
+        x="1+2"
+        y="3" />
+
+    <trans
+        x="3-4"
+        y="-1" />
+
+    <trans
+        x="5*6"
+        y="30" />
+
+    <trans
+        x="1/2"
+        y="0.5" />
+
+    <trans
+        x="floor(12.5)"
+        y="12" />
+
+    <trans
+        x="ceil(12.5)"
+        y="13" />
+
+    <trans
+        x="round(12.4)"
+        y="12" />
+
+    <trans
+        x="round(12.5)"
+        y="13" />
+
+    <trans
+        x="min(2,200)"
+        y="2" />
+
+    <trans
+        x="max(2,200)"
+        y="200" />
+
+    <trans
+        x="1+2+3"
+        y="6" />
+
+    <trans
+        x="1+2-3"
+        y="0" />
+
+    <trans
+        x="1-2+4"
+        y="3" />
+
+</screen>

@@ -125,6 +125,15 @@ public class YlExpTest {
 		Assert.assertEquals("a", exp[i++]);
 		Assert.assertEquals("--", exp[i++]);
 		Assert.assertEquals(i, exp.length);
+
+		exp = YlExp.parse("a-b+c");
+		i = 0;
+		Assert.assertEquals("a", exp[i++]);
+		Assert.assertEquals("b", exp[i++]);
+		Assert.assertEquals("-", exp[i++]);
+		Assert.assertEquals("c", exp[i++]);
+		Assert.assertEquals("+", exp[i++]);
+		Assert.assertEquals(i, exp.length);
 	}
 
 	@Test
@@ -302,7 +311,7 @@ public class YlExpTest {
 		Assert.assertEquals("*", exp[i++]);
 		Assert.assertEquals(i, exp.length);
 	}
-	
+
 	@Test
 	public void hex() throws ParseException {
 		String[] exp;
@@ -313,6 +322,5 @@ public class YlExpTest {
 		Assert.assertEquals("0x1000", exp[i++]);
 		Assert.assertEquals(i, exp.length);
 	}
-
 
 }

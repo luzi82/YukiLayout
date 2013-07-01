@@ -4,7 +4,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.text.ParseException;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.TreeMap;
@@ -136,8 +139,8 @@ public class YlLayout {
 		public Object cal(String key) throws ParseException {
 			try {
 				Field f = getClass().getField(key);
-				if ((f != null) && (f.getType() == StoreRule.class)) {
-					StoreRule rule = (StoreRule) f.get(this);
+				if ((f != null) && (Rule.class.isAssignableFrom(f.getType()))) {
+					Rule rule = (Rule) f.get(this);
 					return rule.val();
 				}
 			} catch (SecurityException e) {
@@ -159,6 +162,20 @@ public class YlLayout {
 	public class Screen extends Ele {
 
 		public StoreRule backgroundColor = new StoreRule(this);
+
+		public Rule width = new Rule(this) {
+			@Override
+			public String rule() {
+				return Integer.toString(rootWidth);
+			}
+		};
+
+		public Rule height = new Rule(this) {
+			@Override
+			public String rule() {
+				return Integer.toString(rootHeight);
+			}
+		};
 
 		@Override
 		public void paintStart(YlGraphics graphics) {
@@ -254,7 +271,7 @@ public class YlLayout {
 			return valBuffer;
 		}
 
-		public abstract void set(String rule);
+		// public abstract void set(String rule);
 
 		public abstract String rule();
 
@@ -308,7 +325,7 @@ public class YlLayout {
 			++valueVer;
 		}
 
-		@Override
+		// @Override
 		public void set(String value) {
 			this.input = value;
 			++valueVer;
@@ -323,7 +340,7 @@ public class YlLayout {
 
 	public static final String VAR_PREFIX = "var.";
 
-	public Object ruleToVal(Ele ele, String rule) throws ParseException {
+	public static Object ruleToVal(Ele ele, String rule) throws ParseException {
 		if (rule == null)
 			return null;
 
@@ -334,7 +351,54 @@ public class YlLayout {
 
 		while (offset < exp.length) {
 			String v = exp[offset++];
-			calStack.push(v);
+			if (v.equals("@")) {
+				int paramLen = Integer.parseInt((String) calStack.pop());
+				Object[] objAry = new Object[paramLen];
+				for (int i = paramLen - 1; i >= 0; --i) {
+					objAry[i] = var(ele, calStack.pop());
+				}
+				String funcName = (String) calStack.pop();
+				Class<?>[] paramClass = new Class[paramLen];
+				Arrays.fill(paramClass, Object.class);
+				try {
+					Method method = YlFunc.class
+							.getMethod(funcName, paramClass);
+					Object ret = method.invoke(null, objAry);
+					calStack.push(ret);
+				} catch (SecurityException e) {
+					throw new ParseException(rule, rule.length());
+				} catch (NoSuchMethodException e) {
+					// System.err.println(funcName);
+					throw new ParseException(rule, rule.length());
+				} catch (IllegalArgumentException e) {
+					throw new Error(e);
+				} catch (IllegalAccessException e) {
+					throw new Error(e);
+				} catch (InvocationTargetException e) {
+					throw new Error(e);
+				}
+			} else if (v.equals("--")) {
+				Object a = var(ele, calStack.pop());
+				calStack.push(YlFunc.neg(a));
+			} else if (v.equals("+")) {
+				Object b = var(ele, calStack.pop());
+				Object a = var(ele, calStack.pop());
+				calStack.push(YlFunc.add(a, b));
+			} else if (v.equals("-")) {
+				Object b = var(ele, calStack.pop());
+				Object a = var(ele, calStack.pop());
+				calStack.push(YlFunc.sub(a, b));
+			} else if (v.equals("*")) {
+				Object b = var(ele, calStack.pop());
+				Object a = var(ele, calStack.pop());
+				calStack.push(YlFunc.mul(a, b));
+			} else if (v.equals("/")) {
+				Object b = var(ele, calStack.pop());
+				Object a = var(ele, calStack.pop());
+				calStack.push(YlFunc.div(a, b));
+			} else {
+				calStack.push(v);
+			}
 		}
 
 		if (calStack.size() != 1) {
@@ -347,13 +411,18 @@ public class YlLayout {
 		return ret;
 	}
 
-	public Object var(Ele ele, Object in) throws ParseException {
+	public static Object var(Ele ele, Object in) throws ParseException {
 		if (in instanceof String) {
 			String s = (String) in;
 			try {
 				float f = Float.parseFloat(s);
 				return f;
 			} catch (NumberFormatException e) {
+			}
+			if (ele != null) {
+				Object v = ele.cal(s);
+				if (v != null)
+					return v;
 			}
 			while (ele != null) {
 				Rule r = ele.var.get(s);
