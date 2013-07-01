@@ -1,0 +1,5 @@
+<screen var.abc="100" >
+
+    <trans x="abc" />
+
+</screen>

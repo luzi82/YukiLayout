@@ -1,11 +1,42 @@
-<screen var.gap="floor(min(this.width,this.height)/20)" background-color="#ff7f7f7f">
-    <box size="parent.size" vol="parent.width,content.height" glue="clip,scroll">
-        <box padding="var.gap">
-            <repeat offset="0,last.height+var.gap" for="itemlist,item">
-                <box size="parent.width,floor(this.width/8)">
-                    <text font-texture-size="32" align="4" text="item.name" color="#ffffffff"/>
-                </box>
+<screen
+    id="root"
+    backgroundColor="#ff7f7f7f"
+    var.gap="floor(min(width,height)/20)" >
+
+    <drag ymin="min(0,parent.height-content.y1)" >
+
+        <trans
+            id="textbox"
+            var.textHeight="textWidth/8"
+            var.textWidth="root.width-2*gap"
+            x="gap"
+            y="gap" >
+
+            <repeat
+                forEach="arg.itemlist"
+                indexAs="index"
+                itemAs="item" >
+
+                <trans y="index*(textHeight+gap)" >
+
+                    <text
+                        align="4"
+                        fontTextureSize="32"
+                        text="item.name"
+                        x1="textWidth"
+                        y1="textHeight"
+                        color="#ffffffff" />
+                </trans>
             </repeat>
-        </box>
-    </box>
+        </trans>
+
+        <void
+            x="0"
+            y="0" />
+
+        <void
+            x="textbox.x1+var.gap"
+            y="textbox.y1+var.gap" />
+    </drag>
+
 </screen>

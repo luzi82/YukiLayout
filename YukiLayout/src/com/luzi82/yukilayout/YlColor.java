@@ -14,8 +14,8 @@ public class YlColor {
 	public float greenF;
 	public float blueF;
 
-	public YlColor(String value) {
-		argb = (int) (Long.decode(value) & 0xffffffff);
+	public YlColor(Object value) {
+		argb = (int) (Long.decode(value.toString()) & 0xffffffff);
 
 		alphaI = (argb >> 24) & 0xff;
 		redI = (argb >> 16) & 0xff;

@@ -41,13 +41,44 @@ public class YlGraphicsRecorder implements YlGraphics {
 	public void clear(YlColor color) {
 		Clear c = new Clear();
 		c.color = color;
-		recordList.push(c);
+		recordList.addLast(c);
 	}
 
 	public class Clear extends Record {
 
 		public YlColor color;
 
+	}
+
+	@Override
+	public void push() {
+		Push p = new Push();
+		recordList.addLast(p);
+	}
+
+	public class Push extends Record {
+	}
+
+	@Override
+	public void pop() {
+		Pop p = new Pop();
+		recordList.addLast(p);
+	}
+
+	public class Pop extends Record {
+	}
+
+	@Override
+	public void translate(float xf, float yf) {
+		Translate t = new Translate();
+		t.x = xf;
+		t.y = yf;
+		recordList.addLast(t);
+	}
+
+	public class Translate extends Record {
+		public float x;
+		public float y;
 	}
 
 }
