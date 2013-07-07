@@ -246,6 +246,14 @@ public class YlLayout {
 
 	public class Text extends Ele {
 
+		public StoreRule color = new StoreRule(this);
+		public StoreRule text = new StoreRule(this);
+
+		@Override
+		public void paint(YlGraphics graphics) {
+			graphics.text(color.color(), text.string());
+		}
+
 	}
 
 	public class Trans extends Ele {
@@ -257,8 +265,6 @@ public class YlLayout {
 		public void paint(YlGraphics graphics) {
 			Float xf = x.floatt();
 			Float yf = y.floatt();
-			// System.err.println("xf " + xf);
-			// System.err.println("yf " + yf);
 			graphics.push();
 			graphics.translate(xf, yf);
 			super.paint(graphics);
@@ -302,6 +308,15 @@ public class YlLayout {
 				return toList(v);
 			}
 		}
+
+		public String string() {
+			Object v = val();
+			if (v == null) {
+				return null;
+			} else {
+				return v.toString();
+			}
+		}
 	}
 
 	public abstract class Rule extends Val {
@@ -314,7 +329,7 @@ public class YlLayout {
 
 		public Object val() {
 			String rule = rule();
-			System.err.println("rule " + rule);
+			// System.err.println("rule " + rule);
 			try {
 				return ruleToVal(ele, rule);
 			} catch (ParseException e) {
@@ -398,7 +413,41 @@ public class YlLayout {
 					Object obj = ae.cal(b);
 					calStack.push(obj);
 				} else {
-					throw new ParseException(rule, rule.length());
+					boolean good = false;
+					if (!good) {
+						try {
+							Method m = a.getClass().getMethod(b);
+							if (m != null) {
+								calStack.push(m.invoke(a));
+								good = true;
+							}
+						} catch (SecurityException e) {
+						} catch (NoSuchMethodException e) {
+						} catch (IllegalArgumentException e) {
+						} catch (IllegalAccessException e) {
+						} catch (InvocationTargetException e) {
+						}
+					}
+					if (!good) {
+						try {
+							Field f = a.getClass().getField(b);
+							if (f != null) {
+								calStack.push(f.get(a));
+								good = true;
+							}
+						} catch (SecurityException e) {
+							e.printStackTrace();
+						} catch (NoSuchFieldException e) {
+							e.printStackTrace();
+						} catch (IllegalArgumentException e) {
+							e.printStackTrace();
+						} catch (IllegalAccessException e) {
+							e.printStackTrace();
+						}
+					}
+					if (!good) {
+						throw new ParseException(rule, rule.length());
+					}
 				}
 			} else if (v.equals("--")) {
 				Object a = var(ele, calStack.pop());

@@ -168,11 +168,22 @@ public class MileStone0Test {
 		Assert.assertEquals(i, recordAry.length);
 	}
 
+	public class U {
+		public String name;
+
+		public U(String n) {
+			this.name = n;
+		}
+	}
+
 	@Test
 	public void milestone0() throws ParserConfigurationException, SAXException,
 			IOException {
+		U[] uu = { new U("a"), new U("b"), new U("c"), new U("d"), new U("e"), };
+
 		YlLayout layout = new YlLayout(new File("res/milestone0.xml"));
 		layout.setRootSize(800, 600);
+		layout.setArg("itemlist", uu);
 
 		YlGraphicsRecorder graphicsRecorder = new YlGraphicsRecorder();
 		layout.paint(graphicsRecorder);
@@ -232,7 +243,7 @@ public class MileStone0Test {
 			record = recordAry[i++];
 			Assert.assertTrue(record instanceof YlGraphicsRecorder.Text);
 			text = (YlGraphicsRecorder.Text) record;
-			Assert.assertEquals(0xffffffff, text.color);
+			Assert.assertEquals(0xffffffff, text.color.argb);
 
 			record = recordAry[i++];
 			Assert.assertTrue(record instanceof YlGraphicsRecorder.Pop);

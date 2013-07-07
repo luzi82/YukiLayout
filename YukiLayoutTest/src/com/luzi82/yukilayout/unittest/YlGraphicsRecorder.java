@@ -17,9 +17,18 @@ public class YlGraphicsRecorder implements YlGraphics {
 
 	}
 
+	@Override
+	public void text(YlColor color, String text) {
+		Text t = new Text();
+		t.color = color;
+		t.text = text;
+		recordList.addLast(t);
+	}
+
 	public class Text extends Record {
 
 		public YlColor color;
+		public String text;
 
 	}
 

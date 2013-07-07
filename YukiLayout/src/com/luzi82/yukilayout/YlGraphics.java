@@ -10,4 +10,6 @@ public interface YlGraphics {
 
 	public void translate(float xf, float yf);
 
+	public void text(YlColor color, String text);
+
 }

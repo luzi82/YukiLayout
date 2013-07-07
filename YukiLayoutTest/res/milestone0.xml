@@ -14,17 +14,17 @@
 
             <repeat
                 id="list"
-                for="itemlist" >
+                foreach="itemlist" >
 
                 <trans y="list.index*(textHeight+gap)" >
 
                     <text
                         align="4"
                         fontTextureSize="32"
+                        height="textHeight"
                         text="list.item.name"
-                        x1="textWidth"
-                        y1="textHeight"
-                        color="#ffffffff" />
+                        width="textWidth"
+                        color="0xffffffff" />
                 </trans>
             </repeat>
         </trans>
