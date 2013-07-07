@@ -13,16 +13,15 @@
             y="gap" >
 
             <repeat
-                forEach="arg.itemlist"
-                indexAs="index"
-                itemAs="item" >
+                id="list"
+                for="itemlist" >
 
-                <trans y="index*(textHeight+gap)" >
+                <trans y="list.index*(textHeight+gap)" >
 
                     <text
                         align="4"
                         fontTextureSize="32"
-                        text="item.name"
+                        text="list.item.name"
                         x1="textWidth"
                         y1="textHeight"
                         color="#ffffffff" />
@@ -35,8 +34,8 @@
             y="0" />
 
         <void
-            x="textbox.x1+var.gap"
-            y="textbox.y1+var.gap" />
+            x="textbox.contentRect.x1+var.gap"
+            y="textbox.contentRect.y1+var.gap" />
     </drag>
 
 </screen>

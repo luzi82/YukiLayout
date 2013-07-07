@@ -2,7 +2,6 @@ package com.luzi82.yukilayout.unittest;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.ParseException;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -84,25 +83,6 @@ public class MileStone0Test {
 	}
 
 	@Test
-	public void ruleToVal() throws ParseException {
-		Assert.assertEquals(2f,
-				((Number) YlLayout.ruleToVal(null, "1+1")).floatValue(),
-				0.00001);
-
-		Assert.assertEquals(-1f,
-				((Number) YlLayout.ruleToVal(null, "1-2")).floatValue(),
-				0.00001);
-
-		Assert.assertEquals(4f,
-				((Number) YlLayout.ruleToVal(null, "2-1+3")).floatValue(),
-				0.00001);
-
-		Assert.assertEquals(2f,
-				((Number) YlLayout.ruleToVal(null, "1-2+3")).floatValue(),
-				0.00001);
-	}
-
-	@Test
 	public void math() throws ParserConfigurationException, SAXException,
 			IOException {
 		YlLayout layout = new YlLayout(new File("res/math.xml"));
@@ -130,7 +110,62 @@ public class MileStone0Test {
 			Assert.assertTrue(record instanceof YlGraphicsRecorder.Pop);
 		}
 
-		// Assert.assertEquals(i, recordAry.length);
+		Assert.assertEquals(i, recordAry.length);
+	}
+
+	@Test
+	public void repeat() throws ParserConfigurationException, SAXException,
+			IOException {
+		YlLayout layout = new YlLayout(new File("res/repeat.xml"));
+		layout.setRootSize(800, 600);
+		layout.setArg("itemlist", new int[] { 123, 456, 789 });
+
+		YlGraphicsRecorder graphicsRecorder = new YlGraphicsRecorder();
+		layout.paint(graphicsRecorder);
+
+		YlGraphicsRecorder.Record[] recordAry = graphicsRecorder.getRecordAry();
+
+		int i = 0;
+		YlGraphicsRecorder.Record record;
+		YlGraphicsRecorder.Translate translate;
+
+		record = recordAry[i++];
+		Assert.assertTrue(record instanceof YlGraphicsRecorder.Push);
+
+		record = recordAry[i++];
+		Assert.assertTrue(record instanceof YlGraphicsRecorder.Translate);
+		translate = (YlGraphicsRecorder.Translate) record;
+		Assert.assertEquals(0f, translate.x, 0.0001);
+		Assert.assertEquals(123f, translate.y, 0.0001);
+
+		record = recordAry[i++];
+		Assert.assertTrue(record instanceof YlGraphicsRecorder.Pop);
+
+		record = recordAry[i++];
+		Assert.assertTrue(record instanceof YlGraphicsRecorder.Push);
+
+		record = recordAry[i++];
+		Assert.assertTrue(record instanceof YlGraphicsRecorder.Translate);
+		translate = (YlGraphicsRecorder.Translate) record;
+		Assert.assertEquals(1f, translate.x, 0.0001);
+		Assert.assertEquals(456f, translate.y, 0.0001);
+
+		record = recordAry[i++];
+		Assert.assertTrue(record instanceof YlGraphicsRecorder.Pop);
+
+		record = recordAry[i++];
+		Assert.assertTrue(record instanceof YlGraphicsRecorder.Push);
+
+		record = recordAry[i++];
+		Assert.assertTrue(record instanceof YlGraphicsRecorder.Translate);
+		translate = (YlGraphicsRecorder.Translate) record;
+		Assert.assertEquals(2f, translate.x, 0.0001);
+		Assert.assertEquals(789f, translate.y, 0.0001);
+
+		record = recordAry[i++];
+		Assert.assertTrue(record instanceof YlGraphicsRecorder.Pop);
+
+		Assert.assertEquals(i, recordAry.length);
 	}
 
 	@Test

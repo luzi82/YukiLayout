@@ -1,0 +1,9 @@
+<screen>
+    
+    <repeat id="list" foreach="itemlist">
+        
+        <trans x="list.index" y="list.item"/>
+        
+    </repeat>
+    
+</screen>
