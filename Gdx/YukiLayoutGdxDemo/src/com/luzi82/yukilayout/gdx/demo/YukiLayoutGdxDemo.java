@@ -15,7 +15,7 @@ public class YukiLayoutGdxDemo extends Game {
 	public void create() {
 		try {
 //			setScreen(new YlgScreen("data/clear.xml"));
-			setScreen(new YlgScreen("data/milestone0.xml"));
+			setScreen(new YlgScreen("data/milestone1.xml"));
 		} catch (ParserConfigurationException e) {
 			throw new Error(e);
 		} catch (SAXException e) {

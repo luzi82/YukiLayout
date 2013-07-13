@@ -31,6 +31,8 @@ public class YlLayout {
 
 	TreeMap<String, Object> arg = new TreeMap<String, Object>();
 
+	LinkedList<Ele> mElementList = new LinkedList<YlLayout.Ele>();
+
 	public YlLayout(File file) throws ParserConfigurationException,
 			SAXException, IOException {
 		SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
@@ -107,6 +109,10 @@ public class YlLayout {
 		public LinkedList<Ele> child = new LinkedList<YlLayout.Ele>();
 
 		public TreeMap<String, StoreRule> var = new TreeMap<String, YlLayout.StoreRule>();
+
+		public Ele() {
+			mElementList.add(this);
+		}
 
 		public void processAttributes(Attributes attributes) {
 			int attrLen = attributes.getLength();
@@ -285,11 +291,16 @@ public class YlLayout {
 		public StoreRule y0 = new StoreRule(this, "0");
 		public StoreRule x1 = new StoreRule(this, "0");
 		public StoreRule y1 = new StoreRule(this, "0");
+		public StoreRule u0 = new StoreRule(this, "0");
+		public StoreRule v0 = new StoreRule(this, "0");
+		public StoreRule u1 = new StoreRule(this, "0");
+		public StoreRule v1 = new StoreRule(this, "0");
 
 		@Override
 		public void paint(YlGraphics graphics) {
 			graphics.img(src.string(), x0.floatt(), y0.floatt(), x1.floatt(),
-					y1.floatt());
+					y1.floatt(), u0.floatt(), v0.floatt(), u1.floatt(),
+					v1.floatt());
 		}
 
 	}
@@ -565,5 +576,9 @@ public class YlLayout {
 			return ret;
 		}
 		throw new ClassCastException();
+	}
+
+	public Ele[] getElementArray() {
+		return mElementList.toArray(new Ele[0]);
 	}
 }
