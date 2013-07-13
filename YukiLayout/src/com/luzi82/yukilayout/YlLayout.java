@@ -76,6 +76,8 @@ public class YlLayout {
 				ele = new Text();
 			} else if (qName.equals("void")) {
 				ele = new Void();
+			} else if (qName.equals("img")) {
+				ele = new Img();
 			} else {
 				throw new SAXException("unknown element: " + qName);
 			}
@@ -276,6 +278,22 @@ public class YlLayout {
 
 	}
 
+	public class Img extends Ele {
+
+		public StoreRule src = new StoreRule(this, "");
+		public StoreRule x0 = new StoreRule(this, "0");
+		public StoreRule y0 = new StoreRule(this, "0");
+		public StoreRule x1 = new StoreRule(this, "0");
+		public StoreRule y1 = new StoreRule(this, "0");
+
+		@Override
+		public void paint(YlGraphics graphics) {
+			graphics.img(src.string(), x0.floatt(), y0.floatt(), x1.floatt(),
+					y1.floatt());
+		}
+
+	}
+
 	public abstract class Val {
 
 		public abstract Object val();
@@ -412,6 +430,8 @@ public class YlLayout {
 					Ele ae = (Ele) a;
 					Object obj = ae.cal(b);
 					calStack.push(obj);
+				} else if (a instanceof String) {
+					calStack.push(((String) a) + "." + b);
 				} else {
 					boolean good = false;
 					if (!good) {
@@ -467,7 +487,13 @@ public class YlLayout {
 			} else if (v.equals("/")) {
 				Object b = var(ele, calStack.pop());
 				Object a = var(ele, calStack.pop());
-				calStack.push(YlFunc.div(a, b));
+				if ((a instanceof Number) && (b instanceof Number)) {
+					calStack.push(YlFunc.div(a, b));
+				} else if ((a instanceof String) && (b instanceof String)) {
+					calStack.push(((String) a) + "/" + ((String) b));
+				} else {
+					throw new ParseException(rule, rule.length());
+				}
 			} else {
 				calStack.push(v);
 			}

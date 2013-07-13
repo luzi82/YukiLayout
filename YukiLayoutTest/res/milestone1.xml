@@ -1,0 +1,12 @@
+<screen
+    id="root"
+    backgroundColor="0xff7f7f7f" >
+
+    <img
+        src="data/libgdx.png"
+        x0="0"
+        x1="root.width"
+        y0="0"
+        y1="root.height" />
+
+</screen>

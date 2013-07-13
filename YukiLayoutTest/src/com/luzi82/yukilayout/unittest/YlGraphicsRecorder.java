@@ -90,4 +90,23 @@ public class YlGraphicsRecorder implements YlGraphics {
 		public float y;
 	}
 
+	@Override
+	public void img(String src, float x0f, float y0f, float x1f, float y1f) {
+		Img i = new Img();
+		i.src = src;
+		i.x0f = x0f;
+		i.y0f = y0f;
+		i.x1f = x1f;
+		i.y1f = y1f;
+		recordList.addLast(i);
+	}
+
+	public class Img extends Record {
+		public String src;
+		public float x0f;
+		public float y0f;
+		public float x1f;
+		public float y1f;
+	}
+
 }

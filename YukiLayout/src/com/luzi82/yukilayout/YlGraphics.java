@@ -12,4 +12,6 @@ public interface YlGraphics {
 
 	public void text(YlColor color, String text);
 
+	public void img(String src, float x0f, float y0f, float x1f, float y1f);
+
 }
