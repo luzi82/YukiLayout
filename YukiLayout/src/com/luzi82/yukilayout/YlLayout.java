@@ -254,12 +254,14 @@ public class YlLayout {
 
 	public class Text extends Ele {
 
+		public StoreRule x = new StoreRule(this, "0");
+		public StoreRule y = new StoreRule(this, "0");
 		public StoreRule color = new StoreRule(this);
 		public StoreRule text = new StoreRule(this);
 
 		@Override
 		public void paint(YlGraphics graphics) {
-			graphics.text(color.color(), text.string());
+			graphics.text(x.floatt(), y.floatt(), color.color(), text.string());
 		}
 
 	}
@@ -350,17 +352,19 @@ public class YlLayout {
 
 	public abstract class Rule extends Val {
 
-		Ele ele;
+		final Ele ele;
+		protected String[] ruleExp;
 
 		public Rule(Ele ele) {
 			this.ele = ele;
 		}
 
 		public Object val() {
-			String rule = rule();
-			// System.err.println("rule " + rule);
 			try {
-				return ruleToVal(ele, rule);
+				if (ruleExp == null) {
+					ruleExp = YlExp.parse(rule());
+				}
+				return ruleToVal(ele, ruleExp);
 			} catch (ParseException e) {
 				throw new Error(e);
 			}
@@ -386,6 +390,7 @@ public class YlLayout {
 		// @Override
 		public void set(String value) {
 			this.input = value;
+			ruleExp = null;
 		}
 
 		@Override
@@ -397,17 +402,17 @@ public class YlLayout {
 
 	public static final String VAR_PREFIX = "var.";
 
-	public Object ruleToVal(Ele ele, String rule) throws ParseException {
-		if (rule == null)
-			return null;
-
-		String[] exp = YlExp.parse(rule);
+	public Object ruleToVal(Ele ele, String[] ruleExp) throws ParseException {
+		// if (rule == null)
+		// return null;
+		//
+		// String[] exp = YlExp.parse(rule);
 		int offset = 0;
 
 		LinkedList<Object> calStack = new LinkedList<Object>();
 
-		while (offset < exp.length) {
-			String v = exp[offset++];
+		while (offset < ruleExp.length) {
+			String v = ruleExp[offset++];
 			if (v.equals("@")) {
 				int paramLen = Integer.parseInt((String) calStack.pop());
 				Object[] objAry = new Object[paramLen];
@@ -423,10 +428,12 @@ public class YlLayout {
 					Object ret = method.invoke(null, objAry);
 					calStack.push(ret);
 				} catch (SecurityException e) {
-					throw new ParseException(rule, rule.length());
+					// throw new ParseException(rule, rule.length());
+					throw new Error(e);
 				} catch (NoSuchMethodException e) {
 					// System.err.println(funcName);
-					throw new ParseException(rule, rule.length());
+					// throw new ParseException(rule, rule.length());
+					throw new Error(e);
 				} catch (IllegalArgumentException e) {
 					throw new Error(e);
 				} catch (IllegalAccessException e) {
@@ -477,7 +484,8 @@ public class YlLayout {
 						}
 					}
 					if (!good) {
-						throw new ParseException(rule, rule.length());
+						// throw new ParseException(rule, rule.length());
+						throw new Error();
 					}
 				}
 			} else if (v.equals("--")) {
@@ -503,7 +511,8 @@ public class YlLayout {
 				} else if ((a instanceof String) && (b instanceof String)) {
 					calStack.push(((String) a) + "/" + ((String) b));
 				} else {
-					throw new ParseException(rule, rule.length());
+					// throw new ParseException(rule, rule.length());
+					throw new Error();
 				}
 			} else {
 				calStack.push(v);
@@ -511,7 +520,8 @@ public class YlLayout {
 		}
 
 		if (calStack.size() != 1) {
-			throw new ParseException(rule, rule.length());
+			// throw new ParseException(rule, rule.length());
+			throw new Error("calStack.size() != 1");
 		}
 
 		Object ret = calStack.getFirst();
