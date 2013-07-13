@@ -354,15 +354,25 @@ public class YlLayout {
 
 		final Ele ele;
 		protected String[] ruleExp;
+		protected boolean ruleExpUpdated;
 
 		public Rule(Ele ele) {
 			this.ele = ele;
+			ruleExpUpdated = false;
 		}
 
 		public Object val() {
 			try {
+				if (!ruleExpUpdated) {
+					String rule = rule();
+					if (rule != null)
+						ruleExp = YlExp.parse(rule);
+					else
+						ruleExp = null;
+					ruleExpUpdated = true;
+				}
 				if (ruleExp == null) {
-					ruleExp = YlExp.parse(rule());
+					return null;
 				}
 				return ruleToVal(ele, ruleExp);
 			} catch (ParseException e) {
@@ -391,6 +401,7 @@ public class YlLayout {
 		public void set(String value) {
 			this.input = value;
 			ruleExp = null;
+			ruleExpUpdated = false;
 		}
 
 		@Override
