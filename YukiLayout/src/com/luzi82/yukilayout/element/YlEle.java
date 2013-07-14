@@ -8,19 +8,19 @@ import java.util.TreeMap;
 import org.xml.sax.Attributes;
 
 import com.luzi82.yukilayout.YlGraphics;
-import com.luzi82.yukilayout.YlLayout;
+import com.luzi82.yukilayout.YlSchema;
 
 public abstract class YlEle {
 
 		/**
 		 * 
 		 */
-		public final YlLayout pLayout;
+		public final YlSchema pLayout;
 
 		/**
 		 * @param aLayout
 		 */
-		public YlEle(YlLayout aLayout) {
+		public YlEle(YlSchema aLayout) {
 			pLayout = aLayout;
 		}
 
@@ -58,9 +58,9 @@ public abstract class YlEle {
 			} catch (IllegalArgumentException e) {
 			} catch (IllegalAccessException e) {
 			}
-			if (key.startsWith(YlLayout.VAR_PREFIX)
-					&& key.length() > YlLayout.VAR_PREFIX.length()) {
-				String varKey = key.substring(YlLayout.VAR_PREFIX.length());
+			if (key.startsWith(YlSchema.VAR_PREFIX)
+					&& key.length() > YlSchema.VAR_PREFIX.length()) {
+				String varKey = key.substring(YlSchema.VAR_PREFIX.length());
 				var.put(varKey, new YlStoreRule(this, value));
 			}
 		}

@@ -1,7 +1,7 @@
 package com.luzi82.yukilayout.element;
 
 import com.luzi82.yukilayout.YlGraphics;
-import com.luzi82.yukilayout.YlLayout;
+import com.luzi82.yukilayout.YlSchema;
 
 public class YlImg extends YlEle {
 
@@ -18,7 +18,7 @@ public class YlImg extends YlEle {
 	public YlStoreRule u1 = new YlStoreRule(this, "0");
 	public YlStoreRule v1 = new YlStoreRule(this, "0");
 
-	public YlImg(YlLayout aLayout) {
+	public YlImg(YlSchema aLayout) {
 		super(aLayout);
 	}
 

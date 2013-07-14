@@ -10,14 +10,14 @@ import junit.framework.Assert;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
-import com.luzi82.yukilayout.YlLayout;
+import com.luzi82.yukilayout.YlSchema;
 
 public class MileStone0Test {
 
 	@Test
 	public void clear() throws ParserConfigurationException, SAXException,
 			IOException {
-		YlLayout layout = new YlLayout(new File("res/clear.xml"));
+		YlSchema layout = new YlSchema(new File("res/clear.xml"));
 		layout.setRootSize(800, 600);
 
 		YlGraphicsRecorder graphicsRecorder = new YlGraphicsRecorder();
@@ -40,7 +40,7 @@ public class MileStone0Test {
 	@Test
 	public void emptyscreen() throws ParserConfigurationException,
 			SAXException, IOException {
-		YlLayout layout = new YlLayout(new File("res/emptyscreen.xml"));
+		YlSchema layout = new YlSchema(new File("res/emptyscreen.xml"));
 		layout.setRootSize(800, 600);
 
 		YlGraphicsRecorder graphicsRecorder = new YlGraphicsRecorder();
@@ -56,7 +56,7 @@ public class MileStone0Test {
 	@Test
 	public void var() throws ParserConfigurationException, SAXException,
 			IOException {
-		YlLayout layout = new YlLayout(new File("res/var.xml"));
+		YlSchema layout = new YlSchema(new File("res/var.xml"));
 		layout.setRootSize(800, 600);
 
 		YlGraphicsRecorder graphicsRecorder = new YlGraphicsRecorder();
@@ -85,7 +85,7 @@ public class MileStone0Test {
 	@Test
 	public void math() throws ParserConfigurationException, SAXException,
 			IOException {
-		YlLayout layout = new YlLayout(new File("res/math.xml"));
+		YlSchema layout = new YlSchema(new File("res/math.xml"));
 		layout.setRootSize(800, 600);
 
 		YlGraphicsRecorder graphicsRecorder = new YlGraphicsRecorder();
@@ -116,7 +116,7 @@ public class MileStone0Test {
 	@Test
 	public void repeat() throws ParserConfigurationException, SAXException,
 			IOException {
-		YlLayout layout = new YlLayout(new File("res/repeat.xml"));
+		YlSchema layout = new YlSchema(new File("res/repeat.xml"));
 		layout.setRootSize(800, 600);
 		layout.setArg("itemlist", new int[] { 123, 456, 789 });
 
@@ -171,7 +171,7 @@ public class MileStone0Test {
 	@Test
 	public void img() throws ParserConfigurationException, SAXException,
 			IOException {
-		YlLayout layout = new YlLayout(new File("res/img.xml"));
+		YlSchema layout = new YlSchema(new File("res/img.xml"));
 		layout.setRootSize(800, 600);
 
 		YlGraphicsRecorder graphicsRecorder = new YlGraphicsRecorder();
@@ -211,7 +211,7 @@ public class MileStone0Test {
 			IOException {
 		U[] uu = { new U("a"), new U("b"), new U("c"), new U("d"), new U("e"), };
 
-		YlLayout layout = new YlLayout(new File("res/milestone0.xml"));
+		YlSchema layout = new YlSchema(new File("res/milestone0.xml"));
 		layout.setRootSize(800, 600);
 		layout.setArg("itemlist", uu);
 

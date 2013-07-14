@@ -2,11 +2,11 @@ package com.luzi82.yukilayout.element;
 
 import com.luzi82.yukilayout.YlColor;
 import com.luzi82.yukilayout.YlGraphics;
-import com.luzi82.yukilayout.YlLayout;
+import com.luzi82.yukilayout.YlSchema;
 
 public class YlScreen extends YlEle {
 
-	public YlScreen(YlLayout aLayout) {
+	public YlScreen(YlSchema aLayout) {
 		super(aLayout);
 	}
 

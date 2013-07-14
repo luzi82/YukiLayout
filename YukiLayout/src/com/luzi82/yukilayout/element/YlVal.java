@@ -3,7 +3,7 @@ package com.luzi82.yukilayout.element;
 import java.util.List;
 
 import com.luzi82.yukilayout.YlColor;
-import com.luzi82.yukilayout.YlLayout;
+import com.luzi82.yukilayout.YlSchema;
 
 public abstract class YlVal {
 
@@ -45,7 +45,7 @@ public abstract class YlVal {
 		if (v == null) {
 			return null;
 		} else {
-			return YlLayout.toList(v);
+			return YlSchema.toList(v);
 		}
 	}
 

@@ -32,7 +32,7 @@ import com.luzi82.yukilayout.element.YlTrans;
 import com.luzi82.yukilayout.element.YlVoid;
 
 
-public class YlLayout {
+public class YlSchema {
 
 	public YlEle mRoot;
 	public int mRootWidth;
@@ -44,13 +44,13 @@ public class YlLayout {
 
 	// LinkedList<Ele> mElementList = new LinkedList<YlLayout.Ele>();
 
-	public YlLayout(File file) throws ParserConfigurationException,
+	public YlSchema(File file) throws ParserConfigurationException,
 			SAXException, IOException {
 		SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
 		parser.parse(file, new DH());
 	}
 
-	public YlLayout(InputStream inputStream)
+	public YlSchema(InputStream inputStream)
 			throws ParserConfigurationException, SAXException, IOException {
 		SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
 		parser.parse(inputStream, new DH());
@@ -78,19 +78,19 @@ public class YlLayout {
 				parent = stack.getFirst();
 			}
 			if (qName.equals("screen")) {
-				ele = new YlScreen(YlLayout.this);
+				ele = new YlScreen(YlSchema.this);
 			} else if (qName.equals("drag")) {
-				ele = new YlDrag(YlLayout.this);
+				ele = new YlDrag(YlSchema.this);
 			} else if (qName.equals("trans")) {
-				ele = new YlTrans(YlLayout.this);
+				ele = new YlTrans(YlSchema.this);
 			} else if (qName.equals("repeat")) {
-				ele = new YlRepeat(YlLayout.this);
+				ele = new YlRepeat(YlSchema.this);
 			} else if (qName.equals("text")) {
-				ele = new YlText(YlLayout.this);
+				ele = new YlText(YlSchema.this);
 			} else if (qName.equals("void")) {
-				ele = new YlVoid(YlLayout.this);
+				ele = new YlVoid(YlSchema.this);
 			} else if (qName.equals("img")) {
-				ele = new YlImg(YlLayout.this);
+				ele = new YlImg(YlSchema.this);
 			} else {
 				throw new SAXException("unknown element: " + qName);
 			}

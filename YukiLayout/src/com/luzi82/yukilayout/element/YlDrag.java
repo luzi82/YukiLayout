@@ -1,7 +1,7 @@
 package com.luzi82.yukilayout.element;
 
 import com.luzi82.yukilayout.YlGraphics;
-import com.luzi82.yukilayout.YlLayout;
+import com.luzi82.yukilayout.YlSchema;
 
 public class YlDrag extends YlEle {
 
@@ -11,7 +11,7 @@ public class YlDrag extends YlEle {
 	public YlStoreRule x = new YlStoreRule(this, "0");
 	public YlStoreRule y = new YlStoreRule(this, "0");
 
-	public YlDrag(YlLayout aLayout) {
+	public YlDrag(YlSchema aLayout) {
 		super(aLayout);
 	}
 
