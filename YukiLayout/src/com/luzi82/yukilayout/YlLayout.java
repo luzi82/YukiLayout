@@ -21,17 +21,28 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import com.luzi82.yukilayout.element.YlDrag;
+import com.luzi82.yukilayout.element.YlEle;
+import com.luzi82.yukilayout.element.YlImg;
+import com.luzi82.yukilayout.element.YlRepeat;
+import com.luzi82.yukilayout.element.YlRule;
+import com.luzi82.yukilayout.element.YlScreen;
+import com.luzi82.yukilayout.element.YlText;
+import com.luzi82.yukilayout.element.YlTrans;
+import com.luzi82.yukilayout.element.YlVoid;
+
+
 public class YlLayout {
 
-	Ele mRoot;
-	int mRootWidth;
-	int mRootHeight;
+	public YlEle mRoot;
+	public int mRootWidth;
+	public int mRootHeight;
 
-	TreeMap<String, Ele> mId2Ele = new TreeMap<String, YlLayout.Ele>();
+	public TreeMap<String, YlEle> mId2Ele = new TreeMap<String, YlEle>();
 
-	TreeMap<String, Object> arg = new TreeMap<String, Object>();
+	public TreeMap<String, Object> arg = new TreeMap<String, Object>();
 
-//	LinkedList<Ele> mElementList = new LinkedList<YlLayout.Ele>();
+	// LinkedList<Ele> mElementList = new LinkedList<YlLayout.Ele>();
 
 	public YlLayout(File file) throws ParserConfigurationException,
 			SAXException, IOException {
@@ -56,30 +67,30 @@ public class YlLayout {
 
 	public class DH extends DefaultHandler {
 
-		LinkedList<Ele> stack = new LinkedList<YlLayout.Ele>();
+		LinkedList<YlEle> stack = new LinkedList<YlEle>();
 
 		@Override
 		public void startElement(String uri, String localName, String qName,
 				Attributes attributes) throws SAXException {
-			Ele ele = null;
-			Ele parent = null;
+			YlEle ele = null;
+			YlEle parent = null;
 			if (stack.size() > 0) {
 				parent = stack.getFirst();
 			}
 			if (qName.equals("screen")) {
-				ele = new Screen();
+				ele = new YlScreen(YlLayout.this);
 			} else if (qName.equals("drag")) {
-				ele = new Drag();
+				ele = new YlDrag(YlLayout.this);
 			} else if (qName.equals("trans")) {
-				ele = new Trans();
+				ele = new YlTrans(YlLayout.this);
 			} else if (qName.equals("repeat")) {
-				ele = new Repeat();
+				ele = new YlRepeat(YlLayout.this);
 			} else if (qName.equals("text")) {
-				ele = new Text();
+				ele = new YlText(YlLayout.this);
 			} else if (qName.equals("void")) {
-				ele = new Void();
+				ele = new YlVoid(YlLayout.this);
 			} else if (qName.equals("img")) {
-				ele = new Img();
+				ele = new YlImg(YlLayout.this);
 			} else {
 				throw new SAXException("unknown element: " + qName);
 			}
@@ -102,332 +113,9 @@ public class YlLayout {
 
 	}
 
-	public abstract class Ele {
-
-		public Ele pParent;
-
-		public LinkedList<Ele> child = new LinkedList<YlLayout.Ele>();
-
-		public TreeMap<String, StoreRule> var = new TreeMap<String, YlLayout.StoreRule>();
-
-//		public Ele() {
-//			mElementList.add(this);
-//		}
-
-		public void processAttributes(Attributes attributes) {
-			int attrLen = attributes.getLength();
-			for (int attrIdx = 0; attrIdx < attrLen; ++attrIdx) {
-				String attrName = attributes.getQName(attrIdx);
-				String attrValue = attributes.getValue(attrIdx);
-				setRule(attrName, attrValue);
-			}
-		}
-
-		public void setRule(String key, String value) {
-			if (key.equals("id")) {
-				mId2Ele.put(value, this);
-			}
-			try {
-				Field f = getClass().getField(key);
-				if ((f != null) && (f.getType() == StoreRule.class)) {
-					StoreRule rule = (StoreRule) f.get(this);
-					rule.set(value);
-				}
-			} catch (SecurityException e) {
-			} catch (NoSuchFieldException e) {
-			} catch (IllegalArgumentException e) {
-			} catch (IllegalAccessException e) {
-			}
-			if (key.startsWith(VAR_PREFIX)
-					&& key.length() > VAR_PREFIX.length()) {
-				String varKey = key.substring(VAR_PREFIX.length());
-				var.put(varKey, new StoreRule(this, value));
-			}
-		}
-
-		public Object cal(String key) throws ParseException {
-			try {
-				Field f = getClass().getField(key);
-				if ((f != null) && (Val.class.isAssignableFrom(f.getType()))) {
-					Val val = (Val) f.get(this);
-					return val.val();
-				}
-			} catch (SecurityException e) {
-			} catch (NoSuchFieldException e) {
-			} catch (IllegalArgumentException e) {
-			} catch (IllegalAccessException e) {
-			}
-			return null;
-		}
-
-		public void paint(YlGraphics graphics) {
-			for (Ele e : child) {
-				e.paint(graphics);
-			}
-		}
-	}
-
-	public class Screen extends Ele {
-
-		public Screen() {
-			super();
-		}
-
-		public StoreRule backgroundColor = new StoreRule(this);
-
-		public Val width = new Val() {
-			@Override
-			public Object val() {
-				return mRootWidth;
-			}
-		};
-
-		public Val height = new Val() {
-			@Override
-			public Object val() {
-				return mRootHeight;
-			}
-		};
-
-		@Override
-		public void paint(YlGraphics graphics) {
-			YlColor backgroundColor = this.backgroundColor.color();
-			if (backgroundColor != null) {
-				graphics.clear(backgroundColor);
-			}
-			super.paint(graphics);
-		}
-	}
-
-	public class Drag extends Ele {
-
-		public StoreRule x = new StoreRule(this, "0");
-		public StoreRule y = new StoreRule(this, "0");
-
-		@Override
-		public void paint(YlGraphics graphics) {
-			Float xf = x.floatt();
-			Float yf = y.floatt();
-			graphics.push();
-			graphics.translate(xf, yf);
-			super.paint(graphics);
-			graphics.pop();
-		}
-
-	}
-
-	public class Repeat extends Ele {
-
-		public StoreRule foreach = new StoreRule(this);
-
-		private int _index = -1;
-		private Object _item = null;
-
-		public Val index = new Val() {
-			@Override
-			public Object val() {
-				return _index;
-			}
-		};
-
-		public Val item = new Val() {
-			@Override
-			public Object val() {
-				return _item;
-			}
-		};
-
-		@Override
-		public void paint(YlGraphics graphics) {
-			List<?> forVal = foreach.list();
-			_index = 0;
-			for (Object v : forVal) {
-				_item = v;
-				super.paint(graphics);
-				++_index;
-			}
-			_index = -1;
-			_item = null;
-		}
-
-	}
-
-	public class Text extends Ele {
-
-		public StoreRule x = new StoreRule(this, "0");
-		public StoreRule y = new StoreRule(this, "0");
-		public StoreRule align = new StoreRule(this, "0");
-		public StoreRule fontSize = new StoreRule(this, "0");
-		public StoreRule color = new StoreRule(this);
-		public StoreRule text = new StoreRule(this);
-
-		@Override
-		public void paint(YlGraphics graphics) {
-			graphics.text(text.string(), x.floatt(), y.floatt(), align.intt(),
-					fontSize.floatt(), color.color());
-		}
-
-	}
-
-	public class Trans extends Ele {
-
-		public StoreRule x = new StoreRule(this, "0");
-		public StoreRule y = new StoreRule(this, "0");
-
-		@Override
-		public void paint(YlGraphics graphics) {
-			Float xf = x.floatt();
-			Float yf = y.floatt();
-			graphics.push();
-			graphics.translate(xf, yf);
-			super.paint(graphics);
-			graphics.pop();
-		}
-	}
-
-	public class Void extends Ele {
-
-	}
-
-	public class Img extends Ele {
-
-		public StoreRule src = new StoreRule(this, "");
-		public StoreRule x0 = new StoreRule(this, "0");
-		public StoreRule y0 = new StoreRule(this, "0");
-		public StoreRule x1 = new StoreRule(this, "0");
-		public StoreRule y1 = new StoreRule(this, "0");
-		public StoreRule u0 = new StoreRule(this, "0");
-		public StoreRule v0 = new StoreRule(this, "0");
-		public StoreRule u1 = new StoreRule(this, "0");
-		public StoreRule v1 = new StoreRule(this, "0");
-
-		@Override
-		public void paint(YlGraphics graphics) {
-			graphics.img(src.string(), x0.floatt(), y0.floatt(), x1.floatt(),
-					y1.floatt(), u0.floatt(), v0.floatt(), u1.floatt(),
-					v1.floatt());
-		}
-
-	}
-
-	public abstract class Val {
-
-		public abstract Object val();
-
-		public YlColor color() {
-			Object v = val();
-			if (v == null) {
-				return null;
-			} else {
-				return new YlColor(v);
-			}
-		}
-
-		public Float floatt() {
-			Object v = val();
-			if (v == null) {
-				return null;
-			} else if (v instanceof Float) {
-				return (Float) v;
-			} else {
-				return Float.valueOf(v.toString());
-			}
-		}
-
-		public Integer intt() {
-			Object v = val();
-			if (v == null) {
-				return null;
-			} else if (v instanceof Integer) {
-				return (Integer) v;
-			} else {
-				return Float.valueOf(v.toString()).intValue();
-			}
-		}
-
-		public List<?> list() {
-			Object v = val();
-			if (v == null) {
-				return null;
-			} else {
-				return toList(v);
-			}
-		}
-
-		public String string() {
-			Object v = val();
-			if (v == null) {
-				return null;
-			} else {
-				return v.toString();
-			}
-		}
-	}
-
-	public abstract class Rule extends Val {
-
-		final Ele ele;
-		protected String[] ruleExp;
-		protected boolean ruleExpUpdated;
-
-		public Rule(Ele ele) {
-			this.ele = ele;
-			ruleExpUpdated = false;
-		}
-
-		public Object val() {
-			try {
-				if (!ruleExpUpdated) {
-					String rule = rule();
-					if (rule != null)
-						ruleExp = YlExp.parse(rule);
-					else
-						ruleExp = null;
-					ruleExpUpdated = true;
-				}
-				if (ruleExp == null) {
-					return null;
-				}
-				return ruleToVal(ele, ruleExp);
-			} catch (ParseException e) {
-				throw new Error(e);
-			}
-		}
-
-		public abstract String rule();
-
-	}
-
-	public class StoreRule extends Rule {
-
-		String input;
-
-		public StoreRule(Ele ele) {
-			super(ele);
-		}
-
-		public StoreRule(Ele ele, String input) {
-			super(ele);
-			this.input = input;
-		}
-
-		// @Override
-		public void set(String value) {
-			this.input = value;
-			ruleExp = null;
-			ruleExpUpdated = false;
-		}
-
-		@Override
-		public String rule() {
-			return input;
-		}
-
-	}
-
 	public static final String VAR_PREFIX = "var.";
 
-	public Object ruleToVal(Ele ele, String[] ruleExp) throws ParseException {
+	public Object ruleToVal(YlEle ele, String[] ruleExp) throws ParseException {
 		// if (rule == null)
 		// return null;
 		//
@@ -469,8 +157,8 @@ public class YlLayout {
 			} else if (v.equals(".")) {
 				String b = (String) calStack.pop();
 				Object a = var(ele, calStack.pop());
-				if (a instanceof Ele) {
-					Ele ae = (Ele) a;
+				if (a instanceof YlEle) {
+					YlEle ae = (YlEle) a;
 					Object obj = ae.cal(b);
 					calStack.push(obj);
 				} else if (a instanceof String) {
@@ -555,7 +243,7 @@ public class YlLayout {
 		return ret;
 	}
 
-	public Object var(Ele ele, Object in) throws ParseException {
+	public Object var(YlEle ele, Object in) throws ParseException {
 		if (in instanceof String) {
 			String s = (String) in;
 			try {
@@ -568,7 +256,7 @@ public class YlLayout {
 					return v;
 			}
 			while (ele != null) {
-				Rule r = ele.var.get(s);
+				YlRule r = ele.var.get(s);
 				if (r != null) {
 					return r.val();
 				}
@@ -613,7 +301,7 @@ public class YlLayout {
 		throw new ClassCastException();
 	}
 
-//	public Ele[] getElementArray() {
-//		return mElementList.toArray(new Ele[0]);
-//	}
+	// public Ele[] getElementArray() {
+	// return mElementList.toArray(new Ele[0]);
+	// }
 }
