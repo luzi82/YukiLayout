@@ -1,11 +1,10 @@
-package com.luzi82.yukilayout.element;
+package com.luzi82.yukilayout.schema;
 
 import java.util.List;
 
 import com.luzi82.yukilayout.YlGraphics;
-import com.luzi82.yukilayout.YlSchema;
 
-public class YlRepeat extends YlEle {
+public class YlRepeatSE extends YlSchemaElement {
 
 	/**
 	 * 
@@ -15,7 +14,7 @@ public class YlRepeat extends YlEle {
 	private int _index = -1;
 	private Object _item = null;
 
-	public YlRepeat(YlSchema aLayout) {
+	public YlRepeatSE(YlSchema aLayout) {
 		super(aLayout);
 	}
 

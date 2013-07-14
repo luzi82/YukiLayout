@@ -1,9 +1,8 @@
-package com.luzi82.yukilayout.element;
+package com.luzi82.yukilayout.schema;
 
 import com.luzi82.yukilayout.YlGraphics;
-import com.luzi82.yukilayout.YlSchema;
 
-public class YlDrag extends YlEle {
+public class YlDragSE extends YlSchemaElement {
 
 	/**
 	 * 
@@ -11,7 +10,7 @@ public class YlDrag extends YlEle {
 	public YlStoreRule x = new YlStoreRule(this, "0");
 	public YlStoreRule y = new YlStoreRule(this, "0");
 
-	public YlDrag(YlSchema aLayout) {
+	public YlDragSE(YlSchema aLayout) {
 		super(aLayout);
 	}
 

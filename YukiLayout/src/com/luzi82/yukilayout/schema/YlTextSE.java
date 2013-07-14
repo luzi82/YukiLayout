@@ -1,9 +1,8 @@
-package com.luzi82.yukilayout.element;
+package com.luzi82.yukilayout.schema;
 
 import com.luzi82.yukilayout.YlGraphics;
-import com.luzi82.yukilayout.YlSchema;
 
-public class YlText extends YlEle {
+public class YlTextSE extends YlSchemaElement {
 
 	/**
 	 * 
@@ -15,7 +14,7 @@ public class YlText extends YlEle {
 	public YlStoreRule color = new YlStoreRule(this);
 	public YlStoreRule text = new YlStoreRule(this);
 
-	public YlText(YlSchema aLayout) {
+	public YlTextSE(YlSchema aLayout) {
 		super(aLayout);
 	}
 

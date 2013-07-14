@@ -1,9 +1,8 @@
-package com.luzi82.yukilayout.element;
+package com.luzi82.yukilayout.schema;
 
 import java.util.List;
 
 import com.luzi82.yukilayout.YlColor;
-import com.luzi82.yukilayout.YlSchema;
 
 public abstract class YlVal {
 

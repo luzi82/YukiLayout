@@ -1,19 +1,19 @@
-package com.luzi82.yukilayout.element;
+package com.luzi82.yukilayout.schema;
 
 import java.text.ParseException;
 
 import com.luzi82.yukilayout.YlExp;
 
-public abstract class YlRule extends YlVal {
+public abstract class YlRuleSE extends YlVal {
 
 	/**
 	 * 
 	 */
-	public final YlEle pEle;
+	public final YlSchemaElement pEle;
 	protected String[] ruleExp;
 	protected boolean ruleExpUpdated;
 
-	public YlRule(YlEle ele) {
+	public YlRuleSE(YlSchemaElement ele) {
 		this.pEle = ele;
 		ruleExpUpdated = false;
 	}
@@ -31,7 +31,7 @@ public abstract class YlRule extends YlVal {
 			if (ruleExp == null) {
 				return null;
 			}
-			return pEle.pLayout.ruleToVal(pEle, ruleExp);
+			return pEle.pSchema.ruleToVal(pEle, ruleExp);
 		} catch (ParseException e) {
 			throw new Error(e);
 		}

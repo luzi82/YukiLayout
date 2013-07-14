@@ -10,7 +10,7 @@ import junit.framework.Assert;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
-import com.luzi82.yukilayout.YlSchema;
+import com.luzi82.yukilayout.schema.YlSchema;
 
 public class MileStone0Test {
 

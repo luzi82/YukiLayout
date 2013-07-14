@@ -1,9 +1,8 @@
-package com.luzi82.yukilayout.element;
+package com.luzi82.yukilayout.schema;
 
 import com.luzi82.yukilayout.YlGraphics;
-import com.luzi82.yukilayout.YlSchema;
 
-public class YlImg extends YlEle {
+public class YlImgSE extends YlSchemaElement {
 
 	/**
 	 * 
@@ -18,7 +17,7 @@ public class YlImg extends YlEle {
 	public YlStoreRule u1 = new YlStoreRule(this, "0");
 	public YlStoreRule v1 = new YlStoreRule(this, "0");
 
-	public YlImg(YlSchema aLayout) {
+	public YlImgSE(YlSchema aLayout) {
 		super(aLayout);
 	}
 

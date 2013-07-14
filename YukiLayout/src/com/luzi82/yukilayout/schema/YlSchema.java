@@ -1,4 +1,4 @@
-package com.luzi82.yukilayout;
+package com.luzi82.yukilayout.schema;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,24 +21,17 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import com.luzi82.yukilayout.element.YlDrag;
-import com.luzi82.yukilayout.element.YlEle;
-import com.luzi82.yukilayout.element.YlImg;
-import com.luzi82.yukilayout.element.YlRepeat;
-import com.luzi82.yukilayout.element.YlRule;
-import com.luzi82.yukilayout.element.YlScreen;
-import com.luzi82.yukilayout.element.YlText;
-import com.luzi82.yukilayout.element.YlTrans;
-import com.luzi82.yukilayout.element.YlVoid;
+import com.luzi82.yukilayout.YlFunc;
+import com.luzi82.yukilayout.YlGraphics;
 
 
 public class YlSchema {
 
-	public YlEle mRoot;
+	public YlSchemaElement mRoot;
 	public int mRootWidth;
 	public int mRootHeight;
 
-	public TreeMap<String, YlEle> mId2Ele = new TreeMap<String, YlEle>();
+	public TreeMap<String, YlSchemaElement> mId2Ele = new TreeMap<String, YlSchemaElement>();
 
 	public TreeMap<String, Object> arg = new TreeMap<String, Object>();
 
@@ -67,30 +60,30 @@ public class YlSchema {
 
 	public class DH extends DefaultHandler {
 
-		LinkedList<YlEle> stack = new LinkedList<YlEle>();
+		LinkedList<YlSchemaElement> stack = new LinkedList<YlSchemaElement>();
 
 		@Override
 		public void startElement(String uri, String localName, String qName,
 				Attributes attributes) throws SAXException {
-			YlEle ele = null;
-			YlEle parent = null;
+			YlSchemaElement ele = null;
+			YlSchemaElement parent = null;
 			if (stack.size() > 0) {
 				parent = stack.getFirst();
 			}
 			if (qName.equals("screen")) {
-				ele = new YlScreen(YlSchema.this);
+				ele = new YlScreenSE(YlSchema.this);
 			} else if (qName.equals("drag")) {
-				ele = new YlDrag(YlSchema.this);
+				ele = new YlDragSE(YlSchema.this);
 			} else if (qName.equals("trans")) {
-				ele = new YlTrans(YlSchema.this);
+				ele = new YlTransSE(YlSchema.this);
 			} else if (qName.equals("repeat")) {
-				ele = new YlRepeat(YlSchema.this);
+				ele = new YlRepeatSE(YlSchema.this);
 			} else if (qName.equals("text")) {
-				ele = new YlText(YlSchema.this);
+				ele = new YlTextSE(YlSchema.this);
 			} else if (qName.equals("void")) {
-				ele = new YlVoid(YlSchema.this);
+				ele = new YlVoidSE(YlSchema.this);
 			} else if (qName.equals("img")) {
-				ele = new YlImg(YlSchema.this);
+				ele = new YlImgSE(YlSchema.this);
 			} else {
 				throw new SAXException("unknown element: " + qName);
 			}
@@ -115,7 +108,7 @@ public class YlSchema {
 
 	public static final String VAR_PREFIX = "var.";
 
-	public Object ruleToVal(YlEle ele, String[] ruleExp) throws ParseException {
+	public Object ruleToVal(YlSchemaElement ele, String[] ruleExp) throws ParseException {
 		// if (rule == null)
 		// return null;
 		//
@@ -157,8 +150,8 @@ public class YlSchema {
 			} else if (v.equals(".")) {
 				String b = (String) calStack.pop();
 				Object a = var(ele, calStack.pop());
-				if (a instanceof YlEle) {
-					YlEle ae = (YlEle) a;
+				if (a instanceof YlSchemaElement) {
+					YlSchemaElement ae = (YlSchemaElement) a;
 					Object obj = ae.cal(b);
 					calStack.push(obj);
 				} else if (a instanceof String) {
@@ -243,7 +236,7 @@ public class YlSchema {
 		return ret;
 	}
 
-	public Object var(YlEle ele, Object in) throws ParseException {
+	public Object var(YlSchemaElement ele, Object in) throws ParseException {
 		if (in instanceof String) {
 			String s = (String) in;
 			try {
@@ -256,7 +249,7 @@ public class YlSchema {
 					return v;
 			}
 			while (ele != null) {
-				YlRule r = ele.var.get(s);
+				YlRuleSE r = ele.var.get(s);
 				if (r != null) {
 					return r.val();
 				}

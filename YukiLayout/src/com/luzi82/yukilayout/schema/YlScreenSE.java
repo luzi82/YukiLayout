@@ -1,12 +1,11 @@
-package com.luzi82.yukilayout.element;
+package com.luzi82.yukilayout.schema;
 
 import com.luzi82.yukilayout.YlColor;
 import com.luzi82.yukilayout.YlGraphics;
-import com.luzi82.yukilayout.YlSchema;
 
-public class YlScreen extends YlEle {
+public class YlScreenSE extends YlSchemaElement {
 
-	public YlScreen(YlSchema aLayout) {
+	public YlScreenSE(YlSchema aLayout) {
 		super(aLayout);
 	}
 
@@ -15,14 +14,14 @@ public class YlScreen extends YlEle {
 	public YlVal width = new YlVal() {
 		@Override
 		public Object val() {
-			return YlScreen.this.pLayout.mRootWidth;
+			return YlScreenSE.this.pSchema.mRootWidth;
 		}
 	};
 
 	public YlVal height = new YlVal() {
 		@Override
 		public Object val() {
-			return YlScreen.this.pLayout.mRootHeight;
+			return YlScreenSE.this.pSchema.mRootHeight;
 		}
 	};
 
