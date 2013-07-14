@@ -18,18 +18,23 @@ public class YlGraphicsRecorder implements YlGraphics {
 	}
 
 	@Override
-	public void text(float xf, float yf, YlColor color, String text) {
+	public void text(String text, float xf, float yf, int align,
+			float fontSize, YlColor color) {
 		Text t = new Text();
+		t.text = text;
 		t.xf = xf;
 		t.yf = yf;
+		t.align = align;
+		t.fontSize = fontSize;
 		t.color = color;
-		t.text = text;
 		recordList.addLast(t);
 	}
 
 	public class Text extends Record {
 
 		public float xf, yf;
+		public float fontSize;
+		public int align;
 		public YlColor color;
 		public String text;
 

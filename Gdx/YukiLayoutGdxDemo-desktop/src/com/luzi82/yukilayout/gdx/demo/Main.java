@@ -10,7 +10,7 @@ public class Main {
 		cfg.useGL20 = true;
 		cfg.width = 640;
 		cfg.height = 360;
-		
-		new LwjglApplication(new YukiLayoutGdxDemo(), cfg);
+
+		new LwjglApplication(new YukiLayoutGdxDemo(new DesktopPal()), cfg);
 	}
 }

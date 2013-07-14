@@ -7,7 +7,7 @@
 
         <trans
             id="textbox"
-            var.textHeight="textWidth/8"
+            var.textHeight="floor(textWidth/8)"
             var.textWidth="root.width-2*gap"
             x="gap"
             y="gap" >
@@ -20,10 +20,9 @@
 
                     <text
                         align="4"
-                        fontTextureSize="32"
-                        height="textHeight"
+                        y="textHeight/2"
+                        fontSize="textHeight"
                         text="list.item.name"
-                        width="textWidth"
                         color="0xffffffff" />
                 </trans>
             </repeat>
