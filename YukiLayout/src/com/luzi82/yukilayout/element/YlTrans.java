@@ -8,8 +8,8 @@ public class YlTrans extends YlEle {
 	/**
 	 * 
 	 */
-	public YlStoreRule x = new YlStoreRule(pLayout, this, "0");
-	public YlStoreRule y = new YlStoreRule(pLayout, this, "0");
+	public YlStoreRule x = new YlStoreRule(this, "0");
+	public YlStoreRule y = new YlStoreRule(this, "0");
 
 	public YlTrans(YlLayout aLayout) {
 		super(aLayout);

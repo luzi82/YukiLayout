@@ -3,21 +3,18 @@ package com.luzi82.yukilayout.element;
 import java.text.ParseException;
 
 import com.luzi82.yukilayout.YlExp;
-import com.luzi82.yukilayout.YlLayout;
 
 public abstract class YlRule extends YlVal {
 
 	/**
 	 * 
 	 */
-	private final YlLayout pLayout;
-	final YlEle ele;
+	public final YlEle pEle;
 	protected String[] ruleExp;
 	protected boolean ruleExpUpdated;
 
-	public YlRule(YlLayout ylLayout, YlEle ele) {
-		pLayout = ylLayout;
-		this.ele = ele;
+	public YlRule(YlEle ele) {
+		this.pEle = ele;
 		ruleExpUpdated = false;
 	}
 
@@ -34,7 +31,7 @@ public abstract class YlRule extends YlVal {
 			if (ruleExp == null) {
 				return null;
 			}
-			return pLayout.ruleToVal(ele, ruleExp);
+			return pEle.pLayout.ruleToVal(pEle, ruleExp);
 		} catch (ParseException e) {
 			throw new Error(e);
 		}

@@ -61,7 +61,7 @@ public abstract class YlEle {
 			if (key.startsWith(YlLayout.VAR_PREFIX)
 					&& key.length() > YlLayout.VAR_PREFIX.length()) {
 				String varKey = key.substring(YlLayout.VAR_PREFIX.length());
-				var.put(varKey, new YlStoreRule(pLayout, this, value));
+				var.put(varKey, new YlStoreRule(this, value));
 			}
 		}
 

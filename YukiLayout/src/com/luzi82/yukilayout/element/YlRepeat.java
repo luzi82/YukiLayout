@@ -10,7 +10,7 @@ public class YlRepeat extends YlEle {
 	/**
 	 * 
 	 */
-	public YlStoreRule foreach = new YlStoreRule(pLayout, this);
+	public YlStoreRule foreach = new YlStoreRule(this);
 
 	private int _index = -1;
 	private Object _item = null;

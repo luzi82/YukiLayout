@@ -8,12 +8,12 @@ public class YlText extends YlEle {
 	/**
 	 * 
 	 */
-	public YlStoreRule x = new YlStoreRule(pLayout, this, "0");
-	public YlStoreRule y = new YlStoreRule(pLayout, this, "0");
-	public YlStoreRule align = new YlStoreRule(pLayout, this, "0");
-	public YlStoreRule fontSize = new YlStoreRule(pLayout, this, "0");
-	public YlStoreRule color = new YlStoreRule(pLayout, this);
-	public YlStoreRule text = new YlStoreRule(pLayout, this);
+	public YlStoreRule x = new YlStoreRule(this, "0");
+	public YlStoreRule y = new YlStoreRule(this, "0");
+	public YlStoreRule align = new YlStoreRule(this, "0");
+	public YlStoreRule fontSize = new YlStoreRule(this, "0");
+	public YlStoreRule color = new YlStoreRule(this);
+	public YlStoreRule text = new YlStoreRule(this);
 
 	public YlText(YlLayout aLayout) {
 		super(aLayout);

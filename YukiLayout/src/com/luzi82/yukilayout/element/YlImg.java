@@ -8,15 +8,15 @@ public class YlImg extends YlEle {
 	/**
 	 * 
 	 */
-	public YlStoreRule src = new YlStoreRule(pLayout, this, "");
-	public YlStoreRule x0 = new YlStoreRule(pLayout, this, "0");
-	public YlStoreRule y0 = new YlStoreRule(pLayout, this, "0");
-	public YlStoreRule x1 = new YlStoreRule(pLayout, this, "0");
-	public YlStoreRule y1 = new YlStoreRule(pLayout, this, "0");
-	public YlStoreRule u0 = new YlStoreRule(pLayout, this, "0");
-	public YlStoreRule v0 = new YlStoreRule(pLayout, this, "0");
-	public YlStoreRule u1 = new YlStoreRule(pLayout, this, "0");
-	public YlStoreRule v1 = new YlStoreRule(pLayout, this, "0");
+	public YlStoreRule src = new YlStoreRule(this, "");
+	public YlStoreRule x0 = new YlStoreRule(this, "0");
+	public YlStoreRule y0 = new YlStoreRule(this, "0");
+	public YlStoreRule x1 = new YlStoreRule(this, "0");
+	public YlStoreRule y1 = new YlStoreRule(this, "0");
+	public YlStoreRule u0 = new YlStoreRule(this, "0");
+	public YlStoreRule v0 = new YlStoreRule(this, "0");
+	public YlStoreRule u1 = new YlStoreRule(this, "0");
+	public YlStoreRule v1 = new YlStoreRule(this, "0");
 
 	public YlImg(YlLayout aLayout) {
 		super(aLayout);

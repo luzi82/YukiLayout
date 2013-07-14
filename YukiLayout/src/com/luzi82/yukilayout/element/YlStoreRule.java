@@ -1,7 +1,5 @@
 package com.luzi82.yukilayout.element;
 
-import com.luzi82.yukilayout.YlLayout;
-
 
 public class YlStoreRule extends YlRule {
 
@@ -10,12 +8,12 @@ public class YlStoreRule extends YlRule {
 	 */
 	String input;
 
-	public YlStoreRule(YlLayout ylLayout, YlEle ele) {
-		super(ylLayout, ele);
+	public YlStoreRule(YlEle ele) {
+		super(ele);
 	}
 
-	public YlStoreRule(YlLayout ylLayout, YlEle ele, String input) {
-		super(ylLayout, ele);
+	public YlStoreRule(YlEle ele, String input) {
+		super(ele);
 		this.input = input;
 	}
 

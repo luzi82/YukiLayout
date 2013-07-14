@@ -10,7 +10,7 @@ public class YlScreen extends YlEle {
 		super(aLayout);
 	}
 
-	public YlStoreRule backgroundColor = new YlStoreRule(this.pLayout, this);
+	public YlStoreRule backgroundColor = new YlStoreRule(this);
 
 	public YlVal width = new YlVal() {
 		@Override
