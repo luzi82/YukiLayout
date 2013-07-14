@@ -147,11 +147,11 @@ public class DesktopPal implements YlgPlatformAbstractLayer {
 
 		// System.err.printf("tmpFont.hasUniformLineMetrics() %s\n",
 		// font.hasUniformLineMetrics());
-		if (font.hasUniformLineMetrics()) {
-			LineMetrics metrics = font.getLineMetrics(TEST_STRING, frc);
-			top = Math.min(top, (int) Math.floor(metrics.getAscent()));
-			bottom = Math.max(bottom, (int) Math.ceil(metrics.getDescent()));
-		}
+		// if (font.hasUniformLineMetrics()) {
+		LineMetrics metrics = font.getLineMetrics(TEST_STRING, frc);
+		top = Math.min(top, (int) Math.floor(metrics.getAscent()));
+		bottom = Math.max(bottom, (int) Math.ceil(metrics.getDescent()));
+		// }
 
 		Rectangle2D rect = font.getStringBounds(TEST_STRING, frc);
 		top = Math.min(top, (int) Math.floor(rect.getMinY()));
