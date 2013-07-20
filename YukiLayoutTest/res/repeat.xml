@@ -1,9 +1,13 @@
 <screen>
-    
-    <repeat id="list" foreach="itemlist">
-        
-        <trans x="list.index" y="list.item"/>
-        
+
+    <repeat foreach="itemlist" >
+
+        <scope id="scope" >
+
+            <trans
+                x="scope.index"
+                y="scope.item" />
+        </scope>
     </repeat>
-    
+
 </screen>

@@ -1,18 +1,18 @@
-package com.luzi82.yukilayout.schema;
+package com.luzi82.yukilayout.layout;
 
 
-public class YlStoreRule extends YlRuleSE {
+public class YlStoreRule extends YlRule {
 
 	/**
 	 * 
 	 */
 	String input;
 
-	public YlStoreRule(YlSchemaElement ele) {
+	public YlStoreRule(YlElement ele) {
 		super(ele);
 	}
 
-	public YlStoreRule(YlSchemaElement ele, String input) {
+	public YlStoreRule(YlElement ele, String input) {
 		super(ele);
 		this.input = input;
 	}

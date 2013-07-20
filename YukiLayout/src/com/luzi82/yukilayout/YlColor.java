@@ -28,4 +28,10 @@ public class YlColor {
 		blueF = blueI / (float) 0xff;
 	}
 
+	public static YlColor create(Object value) {
+		if (value == null)
+			return null;
+		return new YlColor(value);
+	}
+
 }

@@ -10,18 +10,18 @@ import junit.framework.Assert;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
-import com.luzi82.yukilayout.schema.YlSchema;
+import com.luzi82.yukilayout.layout.YlLayout;
 
 public class MileStone0Test {
 
 	@Test
 	public void clear() throws ParserConfigurationException, SAXException,
 			IOException {
-		YlSchema layout = new YlSchema(new File("res/clear.xml"));
-		layout.setRootSize(800, 600);
+		YlLayout schema = new YlLayout(new File("res/clear.xml"), null);
+		// schema.setRootSize(800, 600);
 
 		YlGraphicsRecorder graphicsRecorder = new YlGraphicsRecorder();
-		layout.paint(graphicsRecorder);
+		schema.paint(graphicsRecorder);
 
 		YlGraphicsRecorder.Record[] recordAry = graphicsRecorder.getRecordAry();
 		YlGraphicsRecorder.Record record;
@@ -40,11 +40,11 @@ public class MileStone0Test {
 	@Test
 	public void emptyscreen() throws ParserConfigurationException,
 			SAXException, IOException {
-		YlSchema layout = new YlSchema(new File("res/emptyscreen.xml"));
-		layout.setRootSize(800, 600);
+		YlLayout schema = new YlLayout(new File("res/emptyscreen.xml"), null);
+		// schema.setRootSize(800, 600);
 
 		YlGraphicsRecorder graphicsRecorder = new YlGraphicsRecorder();
-		layout.paint(graphicsRecorder);
+		schema.paint(graphicsRecorder);
 
 		YlGraphicsRecorder.Record[] recordAry = graphicsRecorder.getRecordAry();
 
@@ -54,13 +54,43 @@ public class MileStone0Test {
 	}
 
 	@Test
-	public void var() throws ParserConfigurationException, SAXException,
+	public void translate() throws ParserConfigurationException, SAXException,
 			IOException {
-		YlSchema layout = new YlSchema(new File("res/var.xml"));
-		layout.setRootSize(800, 600);
+		YlLayout schema = new YlLayout(new File("res/translate.xml"), null);
+		// schema.setRootSize(800, 600);
 
 		YlGraphicsRecorder graphicsRecorder = new YlGraphicsRecorder();
-		layout.paint(graphicsRecorder);
+		schema.paint(graphicsRecorder);
+
+		YlGraphicsRecorder.Record[] recordAry = graphicsRecorder.getRecordAry();
+
+		int i = 0;
+		YlGraphicsRecorder.Record record;
+		YlGraphicsRecorder.Translate translate;
+
+		record = recordAry[i++];
+		Assert.assertTrue(record instanceof YlGraphicsRecorder.Push);
+
+		record = recordAry[i++];
+		Assert.assertTrue(record instanceof YlGraphicsRecorder.Translate);
+		translate = (YlGraphicsRecorder.Translate) record;
+		Assert.assertEquals(123f, translate.x);
+		Assert.assertEquals(456f, translate.y);
+
+		record = recordAry[i++];
+		Assert.assertTrue(record instanceof YlGraphicsRecorder.Pop);
+
+		Assert.assertEquals(i, recordAry.length);
+	}
+
+	@Test
+	public void var() throws ParserConfigurationException, SAXException,
+			IOException {
+		YlLayout schema = new YlLayout(new File("res/var.xml"), null);
+		// schema.setRootSize(800, 600);
+
+		YlGraphicsRecorder graphicsRecorder = new YlGraphicsRecorder();
+		schema.paint(graphicsRecorder);
 
 		YlGraphicsRecorder.Record[] recordAry = graphicsRecorder.getRecordAry();
 
@@ -85,11 +115,11 @@ public class MileStone0Test {
 	@Test
 	public void math() throws ParserConfigurationException, SAXException,
 			IOException {
-		YlSchema layout = new YlSchema(new File("res/math.xml"));
-		layout.setRootSize(800, 600);
+		YlLayout schema = new YlLayout(new File("res/math.xml"), null);
+		// schema.setRootSize(800, 600);
 
 		YlGraphicsRecorder graphicsRecorder = new YlGraphicsRecorder();
-		layout.paint(graphicsRecorder);
+		schema.paint(graphicsRecorder);
 
 		YlGraphicsRecorder.Record[] recordAry = graphicsRecorder.getRecordAry();
 
@@ -114,14 +144,67 @@ public class MileStone0Test {
 	}
 
 	@Test
-	public void repeat() throws ParserConfigurationException, SAXException,
+	public void id() throws ParserConfigurationException, SAXException,
 			IOException {
-		YlSchema layout = new YlSchema(new File("res/repeat.xml"));
-		layout.setRootSize(800, 600);
-		layout.setArg("itemlist", new int[] { 123, 456, 789 });
+		YlLayout schema = new YlLayout(new File("res/id.xml"), null);
+		// schema.setRootSize(800, 600);
 
 		YlGraphicsRecorder graphicsRecorder = new YlGraphicsRecorder();
-		layout.paint(graphicsRecorder);
+		schema.paint(graphicsRecorder);
+
+		YlGraphicsRecorder.Record[] recordAry = graphicsRecorder.getRecordAry();
+
+		int i = 0;
+		YlGraphicsRecorder.Record record;
+		YlGraphicsRecorder.Translate translate;
+
+		record = recordAry[i++];
+		Assert.assertTrue(record instanceof YlGraphicsRecorder.Push);
+
+		record = recordAry[i++];
+		Assert.assertTrue(record instanceof YlGraphicsRecorder.Translate);
+
+		record = recordAry[i++];
+		Assert.assertTrue(record instanceof YlGraphicsRecorder.Pop);
+
+		record = recordAry[i++];
+		Assert.assertTrue(record instanceof YlGraphicsRecorder.Push);
+
+		record = recordAry[i++];
+		Assert.assertTrue(record instanceof YlGraphicsRecorder.Translate);
+		translate = (YlGraphicsRecorder.Translate) record;
+		Assert.assertEquals(123f, translate.x, 0.000001);
+		Assert.assertEquals(456f, translate.y, 0.000001);
+
+		record = recordAry[i++];
+		Assert.assertTrue(record instanceof YlGraphicsRecorder.Pop);
+
+		record = recordAry[i++];
+		Assert.assertTrue(record instanceof YlGraphicsRecorder.Push);
+
+		record = recordAry[i++];
+		Assert.assertTrue(record instanceof YlGraphicsRecorder.Translate);
+
+		record = recordAry[i++];
+		Assert.assertTrue(record instanceof YlGraphicsRecorder.Pop);
+
+		Assert.assertEquals(i, recordAry.length);
+	}
+
+	public static class RepeatDummy {
+		public int[] itemlist = { 123, 456, 789 };
+	}
+
+	@Test
+	public void repeat() throws ParserConfigurationException, SAXException,
+			IOException {
+		YlLayout schema = new YlLayout(new File("res/repeat.xml"),
+				new RepeatDummy());
+		// schema.setRootSize(800, 600);
+		// schema.setArg("itemlist", new int[] { 123, 456, 789 });
+
+		YlGraphicsRecorder graphicsRecorder = new YlGraphicsRecorder();
+		schema.paint(graphicsRecorder);
 
 		YlGraphicsRecorder.Record[] recordAry = graphicsRecorder.getRecordAry();
 
@@ -171,8 +254,8 @@ public class MileStone0Test {
 	@Test
 	public void img() throws ParserConfigurationException, SAXException,
 			IOException {
-		YlSchema layout = new YlSchema(new File("res/img.xml"));
-		layout.setRootSize(800, 600);
+		YlLayout layout = new YlLayout(new File("res/img.xml"), null);
+		// layout.setRootSize(800, 600);
 
 		YlGraphicsRecorder graphicsRecorder = new YlGraphicsRecorder();
 		layout.paint(graphicsRecorder);
@@ -198,7 +281,12 @@ public class MileStone0Test {
 		Assert.assertEquals(i, recordAry.length);
 	}
 
-	public class U {
+	public static class UU {
+		public U[] itemlist = { new U("a"), new U("b"), new U("c"), new U("d"),
+				new U("e"), };
+	}
+
+	public static class U {
 		public String name;
 
 		public U(String n) {
@@ -209,11 +297,9 @@ public class MileStone0Test {
 	@Test
 	public void milestone0() throws ParserConfigurationException, SAXException,
 			IOException {
-		U[] uu = { new U("a"), new U("b"), new U("c"), new U("d"), new U("e"), };
-
-		YlSchema layout = new YlSchema(new File("res/milestone0.xml"));
-		layout.setRootSize(800, 600);
-		layout.setArg("itemlist", uu);
+		YlLayout layout = new YlLayout(new File("res/milestone0.xml"), new UU());
+		// layout.setRootSize(800, 600);
+		// layout.setArg("itemlist", uu);
 
 		YlGraphicsRecorder graphicsRecorder = new YlGraphicsRecorder();
 		layout.paint(graphicsRecorder);
@@ -268,7 +354,7 @@ public class MileStone0Test {
 			Assert.assertTrue(record instanceof YlGraphicsRecorder.Translate);
 			translate = (YlGraphicsRecorder.Translate) record;
 			Assert.assertEquals(0f, translate.x);
-			Assert.assertEquals(122f*j, translate.y);
+			Assert.assertEquals(122f * j, translate.y);
 
 			record = recordAry[i++];
 			Assert.assertTrue(record instanceof YlGraphicsRecorder.Text);

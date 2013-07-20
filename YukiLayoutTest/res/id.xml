@@ -1,0 +1,18 @@
+<screen>
+
+    <trans
+        id="a"
+        x="123"
+        y="234" />
+
+    <trans
+        id="b"
+        x="a.x"
+        y="c.y" />
+
+    <trans
+        id="c"
+        x="345"
+        y="456" />
+
+</screen>

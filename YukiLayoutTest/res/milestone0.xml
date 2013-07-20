@@ -1,9 +1,11 @@
 <screen
     id="root"
     backgroundColor="0xff7f7f7f"
-    var.gap="floor(min(width,height)/20)" >
+    height="600"
+    var.gap="floor(min(width,height)/20)"
+    width="800" >
 
-    <drag ymin="min(0,parent.height-content.y1)" >
+    <trans ymin="min(0,parent.height-content.y1)" >
 
         <trans
             id="textbox"
@@ -12,19 +14,20 @@
             x="gap"
             y="gap" >
 
-            <repeat
-                id="list"
-                foreach="itemlist" >
+            <repeat foreach="itemlist" >
 
-                <trans y="list.index*(textHeight+gap)" >
+                <scope id="scope" >
 
-                    <text
-                        align="4"
-                        y="textHeight/2"
-                        fontSize="textHeight"
-                        text="list.item.name"
-                        color="0xffffffff" />
-                </trans>
+                    <trans y="scope.index*(textHeight+gap)" >
+
+                        <text
+                            align="4"
+                            fontSize="textHeight"
+                            text="scope.item.name"
+                            y="textHeight/2"
+                            color="0xffffffff" />
+                    </trans>
+                </scope>
             </repeat>
         </trans>
 
@@ -35,6 +38,6 @@
         <void
             x="textbox.contentRect.x1+var.gap"
             y="textbox.contentRect.y1+var.gap" />
-    </drag>
+    </trans>
 
 </screen>

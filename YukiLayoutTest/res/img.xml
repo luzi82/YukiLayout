@@ -1,6 +1,8 @@
 <screen
     id="root"
-    backgroundColor="0xff7f7f7f" >
+    backgroundColor="0xff7f7f7f"
+    height="600"
+    width="800">
 
     <img
         src="data/libgdx.png"
