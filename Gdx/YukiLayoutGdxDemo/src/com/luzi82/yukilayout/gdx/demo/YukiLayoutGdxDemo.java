@@ -12,12 +12,19 @@ import com.luzi82.yukilayout.gdx.YlgScreen;
 
 public class YukiLayoutGdxDemo extends Game {
 
-	public class U {
+	public static class U {
 		public String name;
 
 		public U(String n) {
 			this.name = n;
 		}
+	}
+
+	public static class UU {
+
+		public U[] itemlist = { new U("a"), new U("b"), new U("c"), new U("d"),
+				new U("e"), };
+
 	}
 
 	YlgPlatformAbstractLayer iPal;
@@ -31,10 +38,9 @@ public class YukiLayoutGdxDemo extends Game {
 		try {
 			// setScreen(new YlgScreen("data/clear.xml"));
 			// setScreen(new YlgScreen("data/img.xml"));
-			U[] uu = { new U("a"), new U("b"), new U("c"), new U("d"),
-					new U("e"), };
-			YlgScreen screen = new YlgScreen("data/milestone0.xml", iPal);
-			screen.setLayoutArg("itemlist", uu);
+			YlgScreen screen = new YlgScreen("data/milestone0.xml", new UU(),
+					iPal);
+			// screen.setLayoutArg("itemlist", uu);
 			setScreen(screen);
 		} catch (ParserConfigurationException e) {
 			throw new Error(e);

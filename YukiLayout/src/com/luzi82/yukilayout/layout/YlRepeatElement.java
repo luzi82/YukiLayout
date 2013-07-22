@@ -35,8 +35,8 @@ public class YlRepeatElement extends YlElement {
 		if (e == null) {
 			return;
 		}
-		if (e.getTagName() != "scope") {
-			throw new Error("element not scope");
+		if (!e.getTagName().equals("scope")) {
+			throw new Error("element not scope: " + e.getTagName());
 		}
 		List<?> list = toList(attr("foreach"));
 		int index = 0;

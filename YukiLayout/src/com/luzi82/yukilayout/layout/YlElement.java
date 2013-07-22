@@ -125,7 +125,7 @@ public abstract class YlElement {
 	public Object attr(String key) {
 		YlVal rule = attr.get(key);
 		if (rule != null) {
-			System.err.println("a");
+//			System.err.println("a");
 			return rule.val();
 		}
 		return attrDefault.get(key);
