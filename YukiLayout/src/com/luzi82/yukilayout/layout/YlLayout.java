@@ -72,6 +72,8 @@ public class YlLayout {
 			ele = new YlImgElement(YlLayout.this, aParent);
 		} else if (qName.equals("scope")) {
 			ele = new YlScopeElement(YlLayout.this, aParent);
+		} else if (qName.equals("cache")) {
+			ele = new YlCacheElement(YlLayout.this, aParent);
 		} else {
 			throw new Error("unknown element: " + qName);
 		}

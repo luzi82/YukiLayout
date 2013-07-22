@@ -7,37 +7,40 @@
 
     <trans ymin="min(0,parent.height-content.y1)" >
 
-        <trans
-            id="textbox"
-            var.textHeight="floor(textWidth/8)"
-            var.textWidth="root.width-2*gap"
-            x="gap"
-            y="gap" >
+        <cache>
 
-            <repeat foreach="itemlist" >
+            <trans
+                id="textbox"
+                var.textHeight="floor(textWidth/8)"
+                var.textWidth="root.width-2*gap"
+                x="gap"
+                y="gap" >
 
-                <scope id="scope" >
+                <repeat foreach="itemlist" >
 
-                    <trans y="scope.index*(textHeight+gap)" >
+                    <scope id="scope" >
 
-                        <text
-                            align="4"
-                            fontSize="textHeight"
-                            text="scope.item.name"
-                            y="floor(textHeight/2)"
-                            color="0xffffffff" />
-                    </trans>
-                </scope>
-            </repeat>
-        </trans>
+                        <trans y="scope.index*(textHeight+gap)" >
 
-        <void
-            x="0"
-            y="0" />
+                            <text
+                                align="4"
+                                fontSize="textHeight"
+                                text="scope.item.name"
+                                y="floor(textHeight/2)"
+                                color="0xffffffff" />
+                        </trans>
+                    </scope>
+                </repeat>
+            </trans>
 
-        <void
-            x="textbox.contentRect.x1+var.gap"
-            y="textbox.contentRect.y1+var.gap" />
+            <void
+                x="0"
+                y="0" />
+
+            <void
+                x="textbox.contentRect.x1+var.gap"
+                y="textbox.contentRect.y1+var.gap" />
+        </cache>
     </trans>
 
 </screen>
