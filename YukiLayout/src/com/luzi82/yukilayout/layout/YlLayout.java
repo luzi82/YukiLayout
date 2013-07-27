@@ -313,6 +313,10 @@ public class YlLayout {
 		}
 	}
 
+	public YlElement[] shoot(float i, float j) {
+		return null;
+	}
+	
 	// public static List<?> toList(Object obj) {
 	// if (obj instanceof List) {
 	// return (List<?>) obj;
