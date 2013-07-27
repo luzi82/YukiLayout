@@ -125,10 +125,14 @@ public abstract class YlElement {
 	public Object attr(String key) {
 		YlVal rule = attr.get(key);
 		if (rule != null) {
-//			System.err.println("a");
+			// System.err.println("a");
 			return rule.val();
 		}
 		return attrDefault.get(key);
+	}
+
+	public boolean attrExist(String key) {
+		return (attr.containsKey(key) || attrDefault.containsKey(key));
 	}
 
 	public void createChild(Element aElement) {

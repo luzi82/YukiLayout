@@ -74,6 +74,8 @@ public class YlLayout {
 			ele = new YlScopeElement(YlLayout.this, aParent);
 		} else if (qName.equals("cache")) {
 			ele = new YlCacheElement(YlLayout.this, aParent);
+		} else if (qName.equals("box")) {
+			ele = new YlBoxElement(YlLayout.this, aParent);
 		} else {
 			throw new Error("unknown element: " + qName);
 		}
@@ -179,8 +181,31 @@ public class YlLayout {
 				Object a = var(ele, calStack.pop());
 				if (a instanceof YlElement) {
 					YlElement ae = (YlElement) a;
-					Object obj = ae.attr(b);
-					calStack.push(obj);
+					boolean good = false;
+					if (!good) {
+						if (ae.attrExist(b)) {
+							Object obj = ae.attr(b);
+							calStack.push(obj);
+							good = true;
+						}
+					}
+					if (!good) {
+						try {
+							Method m = a.getClass().getMethod(b);
+							if (m != null) {
+								calStack.push(m.invoke(a));
+								good = true;
+							}
+						} catch (SecurityException e) {
+						} catch (NoSuchMethodException e) {
+						} catch (IllegalArgumentException e) {
+						} catch (IllegalAccessException e) {
+						} catch (InvocationTargetException e) {
+						}
+					}
+					if (!good) {
+						throw new Error();
+					}
 				} else if (a instanceof String) {
 					calStack.push(((String) a) + "." + b);
 				} else {
@@ -217,7 +242,6 @@ public class YlLayout {
 						}
 					}
 					if (!good) {
-						// throw new ParseException(rule, rule.length());
 						throw new Error();
 					}
 				}
@@ -266,15 +290,21 @@ public class YlLayout {
 	public Object var(YlElement ele, Object in) throws ParseException {
 		if (in instanceof String) {
 			String s = (String) in;
+
+			// check if float
 			try {
 				return Float.parseFloat(s);
 			} catch (NumberFormatException e) {
 			}
+
+			// element attr
 			if (ele != null) {
 				Object v = ele.attr(s);
 				if (v != null)
 					return v;
 			}
+
+			// search parent var- value
 			YlElement ele2 = ele;
 			while (ele2 != null) {
 				YlRule r = ele2.var.get(s);
@@ -316,7 +346,7 @@ public class YlLayout {
 	public YlElement[] shoot(float i, float j) {
 		return null;
 	}
-	
+
 	// public static List<?> toList(Object obj) {
 	// if (obj instanceof List) {
 	// return (List<?>) obj;

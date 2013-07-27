@@ -48,6 +48,11 @@ public class MileStone1Test {
 		record = recordAry[i++];
 		Assert.assertTrue(record instanceof YlGraphicsRecorder.Push);
 		record = recordAry[i++];
+		Assert.assertTrue(record instanceof YlGraphicsRecorder.Translate);
+		translate = (YlGraphicsRecorder.Translate) record;
+		Assert.assertEquals(0, translate.x, 0.000001);
+		Assert.assertEquals(2, translate.y, 0.000001);
+		record = recordAry[i++];
 		Assert.assertTrue(record instanceof YlGraphicsRecorder.Pop);
 
 		while (i < recordAry.length) {
