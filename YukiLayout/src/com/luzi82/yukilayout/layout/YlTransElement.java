@@ -1,6 +1,7 @@
 package com.luzi82.yukilayout.layout;
 
 import com.luzi82.yukilayout.YlGraphics;
+import com.luzi82.yukilayout.YlRect;
 
 public class YlTransElement extends YlElement {
 
@@ -24,5 +25,16 @@ public class YlTransElement extends YlElement {
 		graphics.translate(x, y);
 		super.paint(graphics);
 		graphics.pop();
+	}
+
+	public YlRect rect() {
+		YlRect ret = contentRect();
+		float x = toFloat(attr("x"));
+		float y = toFloat(attr("y"));
+		ret.x0 += x;
+		ret.y0 += y;
+		ret.x1 += x;
+		ret.y1 += y;
+		return ret;
 	}
 }

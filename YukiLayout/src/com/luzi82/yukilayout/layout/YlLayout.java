@@ -179,6 +179,7 @@ public class YlLayout {
 			} else if (v.equals(".")) {
 				String b = (String) calStack.pop();
 				Object a = var(ele, calStack.pop());
+//				System.err.println(b);
 				if (a instanceof YlElement) {
 					YlElement ae = (YlElement) a;
 					boolean good = false;

@@ -89,7 +89,11 @@ public class MileStone1Test {
 		record = recordAry[i++];
 		Assert.assertTrue(record instanceof YlGraphicsRecorder.Push);
 		record = recordAry[i++];
+		Assert.assertTrue(record instanceof YlGraphicsRecorder.Translate);
+		record = recordAry[i++];
 		Assert.assertTrue(record instanceof YlGraphicsRecorder.Push);
+		record = recordAry[i++];
+		Assert.assertTrue(record instanceof YlGraphicsRecorder.Translate);
 		record = recordAry[i++];
 		Assert.assertTrue(record instanceof YlGraphicsRecorder.Pop);
 		record = recordAry[i++];
@@ -98,7 +102,11 @@ public class MileStone1Test {
 		record = recordAry[i++];
 		Assert.assertTrue(record instanceof YlGraphicsRecorder.Push);
 		record = recordAry[i++];
+		Assert.assertTrue(record instanceof YlGraphicsRecorder.Translate);
+		record = recordAry[i++];
 		Assert.assertTrue(record instanceof YlGraphicsRecorder.Push);
+		record = recordAry[i++];
+		Assert.assertTrue(record instanceof YlGraphicsRecorder.Translate);
 		record = recordAry[i++];
 		Assert.assertTrue(record instanceof YlGraphicsRecorder.Pop);
 		record = recordAry[i++];

@@ -13,6 +13,7 @@ import org.w3c.dom.NodeList;
 
 import com.luzi82.yukilayout.YlColor;
 import com.luzi82.yukilayout.YlGraphics;
+import com.luzi82.yukilayout.YlRect;
 
 public abstract class YlElement {
 
@@ -41,7 +42,7 @@ public abstract class YlElement {
 		}
 	}
 
-	public LinkedList<YlElement> child = new LinkedList<YlElement>();
+	public LinkedList<YlElement> childList = new LinkedList<YlElement>();
 
 	public TreeMap<String, YlStoreRule> var = new TreeMap<String, YlStoreRule>();
 
@@ -106,7 +107,7 @@ public abstract class YlElement {
 	// }
 
 	public void paint(YlGraphics graphics) {
-		for (YlElement e : child) {
+		for (YlElement e : childList) {
 			e.paint(graphics);
 		}
 	}
@@ -146,7 +147,7 @@ public abstract class YlElement {
 			Element e = (Element) n;
 			YlElement le = pLayout.createLayoutElement(this, e);
 			le.processElement(e);
-			child.addFirst(le);
+			childList.addFirst(le);
 		}
 	};
 
@@ -211,5 +212,18 @@ public abstract class YlElement {
 
 	public void setAttrDefault(String key, Object obj) {
 		attrDefault.put(key, obj);
+	}
+
+	public YlRect contentRect() {
+		YlRect ret = null;
+		for (YlElement child : childList) {
+			YlRect rect = child.rect();
+			ret = (ret == null) ? (rect) : ret.union(rect);
+		}
+		return ret;
+	}
+
+	public YlRect rect() {
+		return contentRect();
 	}
 }

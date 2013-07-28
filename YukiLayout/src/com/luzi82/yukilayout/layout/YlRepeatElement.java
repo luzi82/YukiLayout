@@ -46,7 +46,7 @@ public class YlRepeatElement extends YlElement {
 			scope.setAttrVal("item", item);
 			scope.setAttrVal("index", index);
 			scope.processElement(e);
-			child.addLast(scope);
+			childList.addLast(scope);
 			++index;
 		}
 	}

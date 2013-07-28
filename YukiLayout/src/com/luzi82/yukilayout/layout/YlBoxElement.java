@@ -1,6 +1,7 @@
 package com.luzi82.yukilayout.layout;
 
 import com.luzi82.yukilayout.YlGraphics;
+import com.luzi82.yukilayout.YlRect;
 
 public class YlBoxElement extends YlElement {
 
@@ -32,5 +33,15 @@ public class YlBoxElement extends YlElement {
 		graphics.translate(x, y);
 		super.paint(graphics);
 		graphics.pop();
+	}
+
+	public YlRect contentRect() {
+		return new YlRect(0, 0, toFloat(attr("x1")) - toFloat(attr("x0")),
+				toFloat(attr("y1")) - toFloat(attr("y0")));
+	}
+
+	public YlRect rect() {
+		return new YlRect(toFloat(attr("x0")), toFloat(attr("y0")),
+				toFloat(attr("x1")), toFloat(attr("y1")));
 	}
 }
