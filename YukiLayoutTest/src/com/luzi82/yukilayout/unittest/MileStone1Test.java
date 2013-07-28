@@ -139,14 +139,8 @@ public class MileStone1Test {
 
 		ShootResult shotResult;
 		ShootElement shootElement;
-		// YlElement shotElement;
-		// int shotElementIdx;
-
-		YlTextElement textElement;
-		// YlBoxElement boxElement;
 
 		shotResult = layout.shoot(400, 40);
-		// shotElementIdx = 0;
 		Assert.assertEquals(400f, shotResult.x);
 		Assert.assertEquals(40f, shotResult.y);
 
@@ -158,38 +152,6 @@ public class MileStone1Test {
 		Assert.assertEquals(370f, shootElement.x);
 		Assert.assertEquals(10f, shootElement.y);
 
-		// shootElement = shootElementItr.next();
-		// Assert.assertTrue(shootElement.element instanceof YlTransElement);
-		// Assert.assertEquals(370f, shootElement.x);
-		// Assert.assertEquals(10f, shootElement.y);
-		//
-		// shootElement = shootElementItr.next();
-		// Assert.assertTrue(shootElement.element instanceof YlScopeElement);
-		// Assert.assertEquals(370f, shootElement.x);
-		// Assert.assertEquals(10f, shootElement.y);
-		//
-		// shootElement = shootElementItr.next();
-		// Assert.assertTrue(shootElement.element instanceof YlRepeatElement);
-		// Assert.assertEquals(370f, shootElement.x);
-		// Assert.assertEquals(10f, shootElement.y);
-		//
-		// shootElement = shootElementItr.next();
-		// Assert.assertTrue(shootElement.element instanceof YlTransElement);
-		// Assert.assertEquals(370f, shootElement.x);
-		// Assert.assertEquals(10f, shootElement.y);
-		//
-		// shootElement = shootElementItr.next();
-		// Assert.assertTrue(shootElement.element instanceof YlTransElement);
-		// Assert.assertEquals(400f, shootElement.x);
-		// Assert.assertEquals(40f, shootElement.y);
-
-		// shootElement = shootElementItr.next();
-		// Assert.assertTrue(shootElement.element.getClass().getSimpleName(),
-		// shootElement.element instanceof YlScreenElement);
-		// Assert.assertEquals(400f, shootElement.x);
-		// Assert.assertEquals(40f, shootElement.y);
-
-		// Assert.assertFalse(shootElementItr.hasNext());
 		if (shootElementItr.hasNext()) {
 			shootElement = shootElementItr.next();
 			System.err.println(shootElement.element.getClass().getSimpleName());
@@ -197,4 +159,30 @@ public class MileStone1Test {
 		}
 	}
 
+	@Test
+	public void milestone1a() throws ParserConfigurationException, SAXException,
+			IOException {
+		YlLayout layout = new YlLayout(new File("res/milestone1a.xml"), new UU());
+
+		ShootResult shotResult;
+		ShootElement shootElement;
+
+		shotResult = layout.shoot(400, 40);
+		Assert.assertEquals(400f, shotResult.x);
+		Assert.assertEquals(40f, shotResult.y);
+
+		Iterator<ShootElement> shootElementItr = shotResult.elementList
+				.iterator();
+
+		// shootElement = shootElementItr.next();
+		// Assert.assertTrue(shootElement.element instanceof YlBoxElement);
+		// Assert.assertEquals(370f, shootElement.x);
+		// Assert.assertEquals(10f, shootElement.y);
+
+		if (shootElementItr.hasNext()) {
+			shootElement = shootElementItr.next();
+			System.err.println(shootElement.element.getClass().getSimpleName());
+			Assert.fail("shootElementItr.hasNext()");
+		}
+	}
 }
