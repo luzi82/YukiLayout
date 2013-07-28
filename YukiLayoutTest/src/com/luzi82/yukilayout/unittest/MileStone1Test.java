@@ -10,9 +10,10 @@ import junit.framework.Assert;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
-import com.luzi82.yukilayout.layout.YlBoxElement;
 import com.luzi82.yukilayout.layout.YlElement;
 import com.luzi82.yukilayout.layout.YlLayout;
+import com.luzi82.yukilayout.layout.YlLayout.ShootElement;
+import com.luzi82.yukilayout.layout.YlLayout.ShootResult;
 import com.luzi82.yukilayout.layout.YlScreenElement;
 import com.luzi82.yukilayout.layout.YlTextElement;
 
@@ -124,21 +125,30 @@ public class MileStone1Test {
 			IOException {
 		YlLayout layout = new YlLayout(new File("res/milestone1.xml"), new UU());
 
-		YlElement[] shotElementList = null;
-		YlElement shotElement;
+		ShootResult shotResult;
+		ShootElement shootElement;
+		// YlElement shotElement;
 		int shotElementIdx;
 
 		YlTextElement textElement;
 		// YlBoxElement boxElement;
 
-		shotElementList = layout.shoot(400, 40);
+		shotResult = layout.shoot(400, 40);
 		shotElementIdx = 0;
-		shotElement = shotElementList[shotElementIdx++];
-		textElement = (YlTextElement) shotElement;
+		Assert.assertEquals(400f, shotResult.x);
+		Assert.assertEquals(40f, shotResult.y);
+
+		shootElement = shotResult.elementList[shotElementIdx++];
+		Assert.assertEquals(370f, shotResult.x);
+		Assert.assertEquals(10f, shotResult.y);
+		textElement = (YlTextElement) shootElement.element;
 		Assert.assertEquals("a", textElement.attr("text"));
-		shotElement = shotElementList[shotElementIdx++];
-		Assert.assertTrue(shotElement instanceof YlScreenElement);
-		Assert.assertEquals(shotElementIdx, shotElementList.length);
+
+		shootElement = shotResult.elementList[shotElementIdx++];
+		Assert.assertEquals(400f, shotResult.x);
+		Assert.assertEquals(40f, shotResult.y);
+		Assert.assertTrue(shootElement.element instanceof YlScreenElement);
+		Assert.assertEquals(shotElementIdx, shotResult.elementList.length);
 	}
 
 }

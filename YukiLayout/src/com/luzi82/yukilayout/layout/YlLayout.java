@@ -343,7 +343,17 @@ public class YlLayout {
 		}
 	}
 
-	public YlElement[] shoot(float i, float j) {
+	public static class ShootResult {
+		public float x, y;
+		public ShootElement[] elementList;
+	}
+
+	public static class ShootElement {
+		public float x, y;
+		public YlElement element;
+	}
+
+	public ShootResult shoot(float i, float j) {
 		return null;
 	}
 
