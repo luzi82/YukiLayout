@@ -42,6 +42,8 @@ public abstract class YlElement {
 		} else {
 			mId2Element = new YlId2Element();
 		}
+		setAttrDefault("cursorEvent", false);
+		setAttrDefault("cursorPass", true);
 	}
 
 	public LinkedList<YlElement> childList = new LinkedList<YlElement>();
@@ -182,6 +184,16 @@ public abstract class YlElement {
 		}
 	}
 
+	public static Boolean toBoolean(Object v) {
+		if (v == null) {
+			return null;
+		} else if (v instanceof Boolean) {
+			return (Boolean) v;
+		} else {
+			return Boolean.valueOf(v.toString());
+		}
+	}
+
 	public static List<?> toList(Object obj) {
 		if (obj == null)
 			return null;
@@ -239,14 +251,18 @@ public abstract class YlElement {
 	}
 
 	public void shoot(float x, float y, ShootResult result) {
-		YlRect rect = rect();
-		if (!rect.inside(x, y))
-			return;
+		// YlRect rect = rect();
+		// if (!rect.inside(x, y))
+		// return;
 		// float xx = x - rect.x0;
 		// float yy = y - rect.y0;
-		for (YlElement child : childList) {
-			child.shoot(x, y, result);
+		if (toBoolean(attr("cursorPass"))) {
+			for (YlElement child : childList) {
+				child.shoot(x, y, result);
+			}
 		}
-		result.elementList.addLast(new ShootElement(x, y, this));
+		if (toBoolean(attr("cursorEvent"))) {
+			result.elementList.addLast(new ShootElement(x, y, this));
+		}
 	}
 }

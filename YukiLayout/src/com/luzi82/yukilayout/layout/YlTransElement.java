@@ -43,14 +43,21 @@ public class YlTransElement extends YlElement {
 
 	@Override
 	public void shoot(float x, float y, ShootResult result) {
-		YlRect rect = rect();
-		if (!rect.inside(x, y))
-			return;
-		float xx = x - toFloat(attr("x"));
-		float yy = y - toFloat(attr("y"));
-		for (YlElement child : childList) {
-			child.shoot(xx, yy, result);
+		boolean cursorPass = toBoolean(attr("cursorPass"));
+		boolean cursorEvent = toBoolean(attr("cursorEvent"));
+		if (cursorPass || cursorEvent) {
+			float xx = x - toFloat(attr("x"));
+			float yy = y - toFloat(attr("y"));
+			if (cursorPass) {
+				for (YlElement child : childList) {
+					child.shoot(xx, yy, result);
+				}
+			}
+			if (cursorEvent) {
+				if (rect().contains(xx, yy)) {
+					result.elementList.addLast(new ShootElement(xx, yy, this));
+				}
+			}
 		}
-		result.elementList.addLast(new ShootElement(xx, yy, this));
 	}
 }

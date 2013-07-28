@@ -158,38 +158,43 @@ public class MileStone1Test {
 		Assert.assertEquals(370f, shootElement.x);
 		Assert.assertEquals(10f, shootElement.y);
 
-		shootElement = shootElementItr.next();
-		Assert.assertTrue(shootElement.element instanceof YlTransElement);
-		Assert.assertEquals(370f, shootElement.x);
-		Assert.assertEquals(10f, shootElement.y);
+		// shootElement = shootElementItr.next();
+		// Assert.assertTrue(shootElement.element instanceof YlTransElement);
+		// Assert.assertEquals(370f, shootElement.x);
+		// Assert.assertEquals(10f, shootElement.y);
+		//
+		// shootElement = shootElementItr.next();
+		// Assert.assertTrue(shootElement.element instanceof YlScopeElement);
+		// Assert.assertEquals(370f, shootElement.x);
+		// Assert.assertEquals(10f, shootElement.y);
+		//
+		// shootElement = shootElementItr.next();
+		// Assert.assertTrue(shootElement.element instanceof YlRepeatElement);
+		// Assert.assertEquals(370f, shootElement.x);
+		// Assert.assertEquals(10f, shootElement.y);
+		//
+		// shootElement = shootElementItr.next();
+		// Assert.assertTrue(shootElement.element instanceof YlTransElement);
+		// Assert.assertEquals(370f, shootElement.x);
+		// Assert.assertEquals(10f, shootElement.y);
+		//
+		// shootElement = shootElementItr.next();
+		// Assert.assertTrue(shootElement.element instanceof YlTransElement);
+		// Assert.assertEquals(400f, shootElement.x);
+		// Assert.assertEquals(40f, shootElement.y);
 
-		shootElement = shootElementItr.next();
-		Assert.assertTrue(shootElement.element instanceof YlScopeElement);
-		Assert.assertEquals(370f, shootElement.x);
-		Assert.assertEquals(10f, shootElement.y);
+		// shootElement = shootElementItr.next();
+		// Assert.assertTrue(shootElement.element.getClass().getSimpleName(),
+		// shootElement.element instanceof YlScreenElement);
+		// Assert.assertEquals(400f, shootElement.x);
+		// Assert.assertEquals(40f, shootElement.y);
 
-		shootElement = shootElementItr.next();
-		Assert.assertTrue(shootElement.element instanceof YlRepeatElement);
-		Assert.assertEquals(370f, shootElement.x);
-		Assert.assertEquals(10f, shootElement.y);
-
-		shootElement = shootElementItr.next();
-		Assert.assertTrue(shootElement.element instanceof YlTransElement);
-		Assert.assertEquals(370f, shootElement.x);
-		Assert.assertEquals(10f, shootElement.y);
-
-		shootElement = shootElementItr.next();
-		Assert.assertTrue(shootElement.element instanceof YlTransElement);
-		Assert.assertEquals(400f, shootElement.x);
-		Assert.assertEquals(40f, shootElement.y);
-
-		shootElement = shootElementItr.next();
-		Assert.assertTrue(shootElement.element.getClass().getSimpleName(),
-				shootElement.element instanceof YlScreenElement);
-		Assert.assertEquals(400f, shootElement.x);
-		Assert.assertEquals(40f, shootElement.y);
-
-		Assert.assertFalse(shootElementItr.hasNext());
+		// Assert.assertFalse(shootElementItr.hasNext());
+		if (shootElementItr.hasNext()) {
+			shootElement = shootElementItr.next();
+			System.err.println(shootElement.element.getClass().getSimpleName());
+			Assert.fail("shootElementItr.hasNext()");
+		}
 	}
 
 }

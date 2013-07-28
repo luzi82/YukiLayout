@@ -26,7 +26,7 @@ public class YlRect {
 				Math.max(x1, other.x1), Math.max(y1, other.y1));
 	}
 
-	public boolean inside(float x, float y) {
+	public boolean contains(float x, float y) {
 		if (x < x0)
 			return false;
 		if (x > x1)

@@ -49,7 +49,7 @@ public class YlBoxElement extends YlElement {
 
 	public void shoot(float x, float y, ShootResult result) {
 		YlRect rect = rect();
-		if (!rect.inside(x, y))
+		if (!rect.contains(x, y))
 			return;
 		float xx = x - toFloat(attr("x0"));
 		float yy = y - toFloat(attr("y0"));

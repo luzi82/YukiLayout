@@ -30,6 +30,7 @@
                             color="0xffffffff" />
 
                         <box
+                            cursorEvent="true"
                             x0="0"
                             x1="textWidth"
                             y0="0"
