@@ -28,6 +28,12 @@
                             text="scope.item.name"
                             y="textHeight/2"
                             color="0xffffffff" />
+
+                        <box
+                            x0="0"
+                            x1="textWidth"
+                            y0="0"
+                            y1="textHeight" />
                     </trans>
                 </scope>
             </repeat>
@@ -35,7 +41,7 @@
 
         <void
             x="0"
-            y="textbox.y1+gap" />
+            y="textbox.rect.y1+gap" />
     </trans>
 
 </screen>

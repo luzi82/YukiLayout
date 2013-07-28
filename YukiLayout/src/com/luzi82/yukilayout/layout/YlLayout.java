@@ -179,31 +179,45 @@ public class YlLayout {
 			} else if (v.equals(".")) {
 				String b = (String) calStack.pop();
 				Object a = var(ele, calStack.pop());
-//				System.err.println(b);
+				System.err.println(b);
 				if (a instanceof YlElement) {
 					YlElement ae = (YlElement) a;
 					boolean good = false;
 					if (!good) {
 						if (ae.attrExist(b)) {
+							System.err.println("ae.attrExist(b)");
 							Object obj = ae.attr(b);
 							calStack.push(obj);
 							good = true;
 						}
 					}
+					// System.err.println("a " + good);
 					if (!good) {
 						try {
+							System.err.println("method " + b);
 							Method m = a.getClass().getMethod(b);
 							if (m != null) {
+								System.err.println("ae "
+										+ ae.getClass().getSimpleName());
+								System.err.println("method " + b + " ok");
 								calStack.push(m.invoke(a));
 								good = true;
 							}
 						} catch (SecurityException e) {
+							e.printStackTrace();
 						} catch (NoSuchMethodException e) {
+							e.printStackTrace();
 						} catch (IllegalArgumentException e) {
+							e.printStackTrace();
 						} catch (IllegalAccessException e) {
+							e.printStackTrace();
 						} catch (InvocationTargetException e) {
+							e.printStackTrace();
 						}
 					}
+					System.err.println("ae " + ae.getClass().getSimpleName());
+					System.err.println("b " + b);
+					System.err.println("good " + good);
 					if (!good) {
 						throw new Error();
 					}
@@ -346,16 +360,26 @@ public class YlLayout {
 
 	public static class ShootResult {
 		public float x, y;
-		public ShootElement[] elementList;
+		public LinkedList<ShootElement> elementList = new LinkedList<YlLayout.ShootElement>();
 	}
 
 	public static class ShootElement {
 		public float x, y;
 		public YlElement element;
+
+		public ShootElement(float x, float y, YlElement element) {
+			this.x = x;
+			this.y = y;
+			this.element = element;
+		}
 	}
 
-	public ShootResult shoot(float i, float j) {
-		return null;
+	public ShootResult shoot(float x, float y) {
+		ShootResult ret = new ShootResult();
+		ret.x = x;
+		ret.y = y;
+		mRoot.shoot(x, y, ret);
+		return ret;
 	}
 
 	// public static List<?> toList(Object obj) {

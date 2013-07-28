@@ -14,6 +14,8 @@ import org.w3c.dom.NodeList;
 import com.luzi82.yukilayout.YlColor;
 import com.luzi82.yukilayout.YlGraphics;
 import com.luzi82.yukilayout.YlRect;
+import com.luzi82.yukilayout.layout.YlLayout.ShootElement;
+import com.luzi82.yukilayout.layout.YlLayout.ShootResult;
 
 public abstract class YlElement {
 
@@ -57,6 +59,9 @@ public abstract class YlElement {
 			Attr attr = (Attr) attributes.item(attrIdx);
 			String attrName = attr.getName();
 			String attrValue = attr.getValue();
+			System.err.println(attrName);
+			System.err.println(attrValue);
+			System.err.println();
 			setRule(attrName, attrValue);
 		}
 		if (iCreateChild) {
@@ -133,7 +138,13 @@ public abstract class YlElement {
 	}
 
 	public boolean attrExist(String key) {
-		return (attr.containsKey(key) || attrDefault.containsKey(key));
+		System.err.println(key);
+		for (String a : attr.keySet()) {
+			System.err.println(a);
+		}
+		boolean v = (attr.containsKey(key) || attrDefault.containsKey(key));
+		System.err.println(v);
+		return v;
 	}
 
 	public void createChild(Element aElement) {
@@ -215,15 +226,27 @@ public abstract class YlElement {
 	}
 
 	public YlRect contentRect() {
-		YlRect ret = null;
+		YlRect ret = new YlRect();
 		for (YlElement child : childList) {
 			YlRect rect = child.rect();
-			ret = (ret == null) ? (rect) : ret.union(rect);
+			ret = ret.union(rect);
 		}
 		return ret;
 	}
 
 	public YlRect rect() {
 		return contentRect();
+	}
+
+	public void shoot(float x, float y, ShootResult result) {
+		YlRect rect = rect();
+		if (!rect.inside(x, y))
+			return;
+		// float xx = x - rect.x0;
+		// float yy = y - rect.y0;
+		for (YlElement child : childList) {
+			child.shoot(x, y, result);
+		}
+		result.elementList.addLast(new ShootElement(x, y, this));
 	}
 }

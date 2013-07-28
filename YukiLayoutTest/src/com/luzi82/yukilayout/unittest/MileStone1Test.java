@@ -2,6 +2,7 @@ package com.luzi82.yukilayout.unittest;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Iterator;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -10,27 +11,17 @@ import junit.framework.Assert;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
-import com.luzi82.yukilayout.layout.YlElement;
+import com.luzi82.yukilayout.layout.YlBoxElement;
 import com.luzi82.yukilayout.layout.YlLayout;
 import com.luzi82.yukilayout.layout.YlLayout.ShootElement;
 import com.luzi82.yukilayout.layout.YlLayout.ShootResult;
+import com.luzi82.yukilayout.layout.YlRepeatElement;
+import com.luzi82.yukilayout.layout.YlScopeElement;
 import com.luzi82.yukilayout.layout.YlScreenElement;
 import com.luzi82.yukilayout.layout.YlTextElement;
+import com.luzi82.yukilayout.layout.YlTransElement;
 
 public class MileStone1Test {
-
-	public static class UU {
-		public U[] itemlist = { new U("a"), new U("b"), new U("c"), new U("d"),
-				new U("e"), };
-	}
-
-	public static class U {
-		public String name;
-
-		public U(String n) {
-			this.name = n;
-		}
-	}
 
 	@Test
 	public void box() throws ParserConfigurationException, SAXException,
@@ -128,6 +119,19 @@ public class MileStone1Test {
 		Assert.assertEquals(i, recordAry.length);
 	}
 
+	public static class UU {
+		public U[] itemlist = { new U("a"), new U("b"), new U("c"), new U("d"),
+				new U("e"), };
+	}
+
+	public static class U {
+		public String name;
+
+		public U(String n) {
+			this.name = n;
+		}
+	}
+
 	@Test
 	public void milestone1() throws ParserConfigurationException, SAXException,
 			IOException {
@@ -136,27 +140,56 @@ public class MileStone1Test {
 		ShootResult shotResult;
 		ShootElement shootElement;
 		// YlElement shotElement;
-		int shotElementIdx;
+		// int shotElementIdx;
 
 		YlTextElement textElement;
 		// YlBoxElement boxElement;
 
 		shotResult = layout.shoot(400, 40);
-		shotElementIdx = 0;
+		// shotElementIdx = 0;
 		Assert.assertEquals(400f, shotResult.x);
 		Assert.assertEquals(40f, shotResult.y);
 
-		shootElement = shotResult.elementList[shotElementIdx++];
-		Assert.assertEquals(370f, shotResult.x);
-		Assert.assertEquals(10f, shotResult.y);
-		textElement = (YlTextElement) shootElement.element;
-		Assert.assertEquals("a", textElement.attr("text"));
+		Iterator<ShootElement> shootElementItr = shotResult.elementList
+				.iterator();
 
-		shootElement = shotResult.elementList[shotElementIdx++];
-		Assert.assertEquals(400f, shotResult.x);
-		Assert.assertEquals(40f, shotResult.y);
-		Assert.assertTrue(shootElement.element instanceof YlScreenElement);
-		Assert.assertEquals(shotElementIdx, shotResult.elementList.length);
+		shootElement = shootElementItr.next();
+		Assert.assertTrue(shootElement.element instanceof YlBoxElement);
+		Assert.assertEquals(370f, shootElement.x);
+		Assert.assertEquals(10f, shootElement.y);
+
+		shootElement = shootElementItr.next();
+		Assert.assertTrue(shootElement.element instanceof YlTransElement);
+		Assert.assertEquals(370f, shootElement.x);
+		Assert.assertEquals(10f, shootElement.y);
+
+		shootElement = shootElementItr.next();
+		Assert.assertTrue(shootElement.element instanceof YlScopeElement);
+		Assert.assertEquals(370f, shootElement.x);
+		Assert.assertEquals(10f, shootElement.y);
+
+		shootElement = shootElementItr.next();
+		Assert.assertTrue(shootElement.element instanceof YlRepeatElement);
+		Assert.assertEquals(370f, shootElement.x);
+		Assert.assertEquals(10f, shootElement.y);
+
+		shootElement = shootElementItr.next();
+		Assert.assertTrue(shootElement.element instanceof YlTransElement);
+		Assert.assertEquals(370f, shootElement.x);
+		Assert.assertEquals(10f, shootElement.y);
+
+		shootElement = shootElementItr.next();
+		Assert.assertTrue(shootElement.element instanceof YlTransElement);
+		Assert.assertEquals(400f, shootElement.x);
+		Assert.assertEquals(40f, shootElement.y);
+
+		shootElement = shootElementItr.next();
+		Assert.assertTrue(shootElement.element.getClass().getSimpleName(),
+				shootElement.element instanceof YlScreenElement);
+		Assert.assertEquals(400f, shootElement.x);
+		Assert.assertEquals(40f, shootElement.y);
+
+		Assert.assertFalse(shootElementItr.hasNext());
 	}
 
 }
