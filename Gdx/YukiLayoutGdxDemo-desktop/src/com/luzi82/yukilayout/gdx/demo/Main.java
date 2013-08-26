@@ -2,6 +2,7 @@ package com.luzi82.yukilayout.gdx.demo;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import com.luzi82.yukilayout.gdx.desktop.DesktopPal;
 
 public class Main {
 	public static void main(String[] args) {

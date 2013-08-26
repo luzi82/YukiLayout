@@ -76,6 +76,8 @@ public class YlLayout {
 			ele = new YlCacheElement(YlLayout.this, aParent);
 		} else if (qName.equals("box")) {
 			ele = new YlBoxElement(YlLayout.this, aParent);
+		} else if (qName.equals("scroll")) {
+			ele = new YlScrollElement(YlLayout.this, aParent);
 		} else {
 			throw new Error("unknown element: " + qName);
 		}

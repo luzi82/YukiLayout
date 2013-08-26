@@ -38,7 +38,9 @@ public class YukiLayoutGdxDemo extends Game {
 		try {
 			// setScreen(new YlgScreen("data/clear.xml"));
 			// setScreen(new YlgScreen("data/img.xml"));
-			YlgScreen screen = new YlgScreen("data/milestone0.xml", new UU(),
+			// YlgScreen screen = new YlgScreen("data/milestone0.xml", new UU(),
+			// iPal);
+			YlgScreen screen = new YlgScreen("data/milestone2.xml", new UU(),
 					iPal);
 			// screen.setLayoutArg("itemlist", uu);
 			setScreen(screen);

@@ -8,5 +8,6 @@
 	<classpathentry kind="lib" path="libs/gdx-natives.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/YukiLayoutGdxDemo"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/YukiLayoutGdx"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/YukiLayoutGdxDesktop"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

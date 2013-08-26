@@ -13,11 +13,13 @@ import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.luzi82.yukilayout.YlColor;
 import com.luzi82.yukilayout.gdx.YlgPlatformAbstractLayer;
+import com.luzi82.yukilayout.layout.YlLayout;
 
 public class AndroidPal implements YlgPlatformAbstractLayer {
 
@@ -136,6 +138,10 @@ public class AndroidPal implements YlgPlatformAbstractLayer {
 		bottom = Math.max(bottom, (int) Math.ceil(fm.descent));
 
 		return new int[] { top, bottom };
+	}
+
+	public InputProcessor createInputProcessor(YlLayout aLayout) {
+		return null;
 	}
 
 }

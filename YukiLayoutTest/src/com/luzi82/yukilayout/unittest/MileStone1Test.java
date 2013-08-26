@@ -15,11 +15,6 @@ import com.luzi82.yukilayout.layout.YlBoxElement;
 import com.luzi82.yukilayout.layout.YlLayout;
 import com.luzi82.yukilayout.layout.YlLayout.ShootElement;
 import com.luzi82.yukilayout.layout.YlLayout.ShootResult;
-import com.luzi82.yukilayout.layout.YlRepeatElement;
-import com.luzi82.yukilayout.layout.YlScopeElement;
-import com.luzi82.yukilayout.layout.YlScreenElement;
-import com.luzi82.yukilayout.layout.YlTextElement;
-import com.luzi82.yukilayout.layout.YlTransElement;
 
 public class MileStone1Test {
 

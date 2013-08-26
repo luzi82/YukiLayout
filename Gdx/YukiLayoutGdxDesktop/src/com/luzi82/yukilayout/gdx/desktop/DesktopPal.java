@@ -1,4 +1,4 @@
-package com.luzi82.yukilayout.gdx.demo;
+package com.luzi82.yukilayout.gdx.desktop;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -13,11 +13,13 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.luzi82.yukilayout.YlColor;
 import com.luzi82.yukilayout.gdx.YlgPlatformAbstractLayer;
+import com.luzi82.yukilayout.layout.YlLayout;
 
 public class DesktopPal implements YlgPlatformAbstractLayer {
 
@@ -171,5 +173,10 @@ public class DesktopPal implements YlgPlatformAbstractLayer {
 		tmpG2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
 		return tmpG2d.getFontRenderContext();
+	}
+
+	@Override
+	public InputProcessor createInputProcessor(YlLayout aLayout) {
+		return new YlgdLayoutInputProcessor(aLayout);
 	}
 }

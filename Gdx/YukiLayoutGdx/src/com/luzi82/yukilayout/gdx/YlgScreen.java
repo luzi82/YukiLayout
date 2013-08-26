@@ -10,6 +10,7 @@ import org.xml.sax.SAXException;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -26,6 +27,7 @@ public class YlgScreen implements Screen, YlGraphics {
 	YlgPlatformAbstractLayer iPal;
 
 	YlLayout layout;
+	InputProcessor mInputProcessor;
 
 	GL20 gl;
 	SpriteBatch spriteBatch;
@@ -186,6 +188,8 @@ public class YlgScreen implements Screen, YlGraphics {
 		// // String txt = text.text.string();
 		// }
 		// }
+		this.mInputProcessor = iPal.createInputProcessor(this.layout);
+		Gdx.input.setInputProcessor(mInputProcessor);
 
 		this.layout.paint(new YlgPrepare());
 	}
@@ -208,6 +212,8 @@ public class YlgScreen implements Screen, YlGraphics {
 			t.mTextureRegion.getTexture().dispose();
 		}
 		mTextMap = null;
+
+		mInputProcessor = null;
 	}
 
 	class YlgPrepare implements YlGraphics {
