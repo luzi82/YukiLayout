@@ -10,5 +10,6 @@
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/YukiLayout"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/YukiLayoutGdx"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/YukiLayoutGdxAndroid"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
