@@ -11,6 +11,7 @@ import java.lang.reflect.Method;
 import java.text.ParseException;
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.TreeMap;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -37,6 +38,8 @@ public class YlLayout {
 
 	// LinkedList<Ele> mElementList = new LinkedList<YlLayout.Ele>();
 
+	public final TreeMap<String, Object> mUnitVar = new TreeMap<String, Object>();
+
 	public YlLayout(File file, Object arg, YlPlatformAbstractLayer pal)
 			throws ParserConfigurationException, SAXException, IOException {
 		this(new FileInputStream(file), arg, pal);
@@ -51,6 +54,8 @@ public class YlLayout {
 		if (pPal == null) {
 			pPal = new YlPlatformAbstractLayer.Default();
 		}
+		mUnitVar.put("mm", pPal.pixelPerMeter() / 1000);
+		mUnitVar.put("inch", pPal.pixelPerInch());
 
 		BufferedInputStream bis = new BufferedInputStream(inputStream);
 
@@ -337,9 +342,13 @@ public class YlLayout {
 				}
 				ele2 = ele2.pParent;
 			}
+
+			// check if element
 			ele2 = ele.mId2Element.get(s);
 			if (ele2 != null)
 				return ele2;
+
+			// check on arg
 			if (pArg != null) {
 				try {
 					Class<?> argClass = pArg.getClass();
@@ -355,6 +364,12 @@ public class YlLayout {
 					// e.printStackTrace();
 				}
 			}
+
+			// check on unit
+			if (mUnitVar.containsKey(s)) {
+				return mUnitVar.get(s);
+			}
+
 			// if (mId2Ele.containsKey(s)) {
 			// return mId2Ele.get(s);
 			// }

@@ -44,12 +44,15 @@ public class MileStone3Test {
 		layout.paint(graphicsRecorder);
 		recordAry = graphicsRecorder.getRecordAry();
 		i = 0;
-		
+
+		record = recordAry[i++];
+		Assert.assertTrue(record instanceof YlGraphicsRecorder.Push);
+
 		record = recordAry[i++];
 		Assert.assertTrue(record.getClass().getName(),
-				record instanceof YlGraphicsRecorder.Clear);
+				record instanceof YlGraphicsRecorder.Translate);
 		translate = (YlGraphicsRecorder.Translate) record;
-		Assert.assertEquals(4f, translate.x);
+		Assert.assertEquals(40f, translate.x);
 		Assert.assertEquals(400f, translate.y);
 	}
 	
