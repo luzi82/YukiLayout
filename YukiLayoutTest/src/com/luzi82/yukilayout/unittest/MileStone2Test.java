@@ -31,7 +31,7 @@ public class MileStone2Test {
 	@Test
 	public void milestone2() throws ParserConfigurationException, SAXException,
 			IOException {
-		YlLayout layout = new YlLayout(new File("res/milestone2.xml"), new UU());
+		YlLayout layout = new YlLayout(new File("res/milestone2.xml"), new UU(),null);
 
 		YlGraphicsRecorder graphicsRecorder;
 		YlGraphicsRecorder.Record[] recordAry;

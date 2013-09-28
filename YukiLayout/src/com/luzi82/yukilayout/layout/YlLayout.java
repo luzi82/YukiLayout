@@ -26,6 +26,7 @@ import com.luzi82.yukilayout.YlGraphics;
 public class YlLayout {
 
 	public YlElement mRoot;
+	public YlPlatformAbstractLayer pPal;
 
 	// public TreeMap<String, YlElement> mId2Ele = new TreeMap<String,
 	// YlElement>();
@@ -36,14 +37,20 @@ public class YlLayout {
 
 	// LinkedList<Ele> mElementList = new LinkedList<YlLayout.Ele>();
 
-	public YlLayout(File file, Object arg) throws ParserConfigurationException,
-			SAXException, IOException {
-		this(new FileInputStream(file), arg);
+	public YlLayout(File file, Object arg, YlPlatformAbstractLayer pal)
+			throws ParserConfigurationException, SAXException, IOException {
+		this(new FileInputStream(file), arg, pal);
 	}
 
-	public YlLayout(InputStream inputStream, Object arg)
-			throws ParserConfigurationException, SAXException, IOException {
+	public YlLayout(InputStream inputStream, Object arg,
+			YlPlatformAbstractLayer pal) throws ParserConfigurationException,
+			SAXException, IOException {
 		pArg = arg;
+		pPal = pal;
+
+		if (pPal == null) {
+			pPal = new YlPlatformAbstractLayer.Default();
+		}
 
 		BufferedInputStream bis = new BufferedInputStream(inputStream);
 

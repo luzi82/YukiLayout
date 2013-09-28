@@ -21,7 +21,7 @@ public class MileStone1Test {
 	@Test
 	public void box() throws ParserConfigurationException, SAXException,
 			IOException {
-		YlLayout layout = new YlLayout(new File("res/box.xml"), null);
+		YlLayout layout = new YlLayout(new File("res/box.xml"), null,null);
 
 		YlGraphicsRecorder graphicsRecorder = new YlGraphicsRecorder();
 		layout.paint(graphicsRecorder);
@@ -61,7 +61,7 @@ public class MileStone1Test {
 	@Test
 	public void rect() throws ParserConfigurationException, SAXException,
 			IOException {
-		YlLayout layout = new YlLayout(new File("res/rect.xml"), null);
+		YlLayout layout = new YlLayout(new File("res/rect.xml"), null,null);
 
 		YlGraphicsRecorder graphicsRecorder = new YlGraphicsRecorder();
 		layout.paint(graphicsRecorder);
@@ -130,7 +130,7 @@ public class MileStone1Test {
 	@Test
 	public void milestone1() throws ParserConfigurationException, SAXException,
 			IOException {
-		YlLayout layout = new YlLayout(new File("res/milestone1.xml"), new UU());
+		YlLayout layout = new YlLayout(new File("res/milestone1.xml"), new UU(),null);
 
 		ShootResult shotResult;
 		ShootElement shootElement;
@@ -157,7 +157,7 @@ public class MileStone1Test {
 	@Test
 	public void milestone1a() throws ParserConfigurationException, SAXException,
 			IOException {
-		YlLayout layout = new YlLayout(new File("res/milestone1a.xml"), new UU());
+		YlLayout layout = new YlLayout(new File("res/milestone1a.xml"), new UU(),null);
 
 		ShootResult shotResult;
 		ShootElement shootElement;

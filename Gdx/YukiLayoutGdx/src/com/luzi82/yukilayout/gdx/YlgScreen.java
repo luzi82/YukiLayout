@@ -37,7 +37,8 @@ public class YlgScreen implements Screen, YlGraphics {
 
 	public YlgScreen(String string, Object arg, YlgPlatformAbstractLayer aPal)
 			throws ParserConfigurationException, SAXException, IOException {
-		this.layout = new YlLayout(Gdx.files.internal(string).read(), arg);
+		this.layout = new YlLayout(Gdx.files.internal(string).read(), arg,
+				new YlPal());
 		// this.layout.setRootSize(Gdx.graphics.getWidth(),
 		// Gdx.graphics.getHeight());
 		iPal = aPal;
